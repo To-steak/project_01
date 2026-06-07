@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca698bfef2d425f428234063fab4648a, type: 3}
   m_Name: PlayerConfig
   m_EditorClassIdentifier: Assembly-CSharp::PlayerConfig
-  WalkSpeed: 5
-  RunSpeed: 8
+  WalkSpeed: 2
+  RunSpeed: 4
+  DodgeSpeed: 6
   JumpForce: 10
   Gravity: -9.81
   GroundCheckOffset: {x: 0, y: -0.6, z: 0}

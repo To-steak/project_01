@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 public class PlayerInputs : MonoBehaviour
 {
     public Vector2 Look { get; private set; }
-    public Vector2 Move { get; private set; }
+    public Vector3 Move { get; private set; }
     public bool Run { get; private set; }
 
     private Player_Actions _actions;
@@ -68,7 +68,8 @@ public class PlayerInputs : MonoBehaviour
 
     private void OnMove(InputAction.CallbackContext context)
     {
-        Move = context.ReadValue<Vector2>();
+        var input = context.ReadValue<Vector2>();
+        Move = new Vector3(input.x, 0f, input.y);
     }
 
     private void OnRun(InputAction.CallbackContext context)
@@ -83,10 +84,7 @@ public class PlayerInputs : MonoBehaviour
 
     private void OnDodge(InputAction.CallbackContext context)
     {
-        var input = context.ReadValueAsButton();
-#if UNITY_EDITOR
-        Debug.Log($"PlayerInputs.<color=magenta>OnDodge</color>: <color=orange>{input}</color>");
-#endif
+        if (context.performed) _playerEvents.RaiseOnDodge();
     }
 
     private void OnAttack(InputAction.CallbackContext context)

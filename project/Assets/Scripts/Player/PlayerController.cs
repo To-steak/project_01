@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
     public PlayerInputs Inputs => _playerInputs;
     public PlayerMovements Movements => _playerMovements;
     public PlayerAnimations Animations => _playerAnimations;
-    public PlayerState State => _playerState; // Only use Debug
+    public PlayerState CurrentState => _playerState; // Only use Debug
 
     [SerializeField] private PlayerConfig _config;
 
@@ -27,6 +27,7 @@ public class PlayerController : MonoBehaviour
 
         _states[typeof(PlayerIdleState)] = new PlayerIdleState(this);
         _states[typeof(PlayerMoveState)] = new PlayerMoveState(this);
+        _states[typeof(PlayerDodgeState)] = new PlayerDodgeState(this);
 
         _playerState = _states[typeof(PlayerIdleState)];
 
@@ -53,12 +54,14 @@ public class PlayerController : MonoBehaviour
 
     void OnEnable()
     {
-
+        _playerEvents.DodgeRequest += HandleDodgeRequest;
+        _playerEvents.AnimationFinishRequest += HandleAnimationFinish;
     }
 
     void OnDisable()
     {
-
+        _playerEvents.DodgeRequest -= HandleDodgeRequest;
+        _playerEvents.AnimationFinishRequest += HandleAnimationFinish;
     }
 
     void Update()
@@ -77,4 +80,7 @@ public class PlayerController : MonoBehaviour
             _playerState.Enter();
         }
     }
+
+    private void HandleDodgeRequest() => _playerState.HandleDodge();
+    private void HandleAnimationFinish() => _playerState.HandleAnimationFinish();
 }

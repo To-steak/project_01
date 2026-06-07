@@ -1,16 +1,15 @@
 using UnityEngine;
 
-public class PlayerAnimations : MonoBehaviour
+public class PlayerAnimations : MonoBehaviour, IAnimationEventReceiver
 {
-    private int speedHash = Animator.StringToHash("Speed");
-    private int jumpHash = Animator.StringToHash("Jump");
+    private readonly int speedHash = Animator.StringToHash("Speed");
+    private readonly int dodgeHash = Animator.StringToHash("Dodge");
 
     private Animator _animator;
     private PlayerEvents _playerEvents;
     private const float IDLE = 0f;
     private const float WALK = 0.5f;
     private const float RUN = 1.0f;
-    private const float DAMPTIME = 0.1f;
 
     public void Initialize(PlayerEvents playerEvents)
     {
@@ -27,16 +26,18 @@ public class PlayerAnimations : MonoBehaviour
 
     public void PlayIdle()
     {
-        _animator.SetFloat(speedHash, IDLE, DAMPTIME, Time.deltaTime);
+        _animator.SetFloat(speedHash, IDLE);
     }
 
     public void PlayMove(bool value)
     {
-        _animator.SetFloat(speedHash, value ? RUN : WALK, DAMPTIME, Time.deltaTime);
+        _animator.SetFloat(speedHash, value ? RUN : WALK);
     }
 
-    public void PlayJump()
+    public void PlayDodge()
     {
-        _animator.SetTrigger(jumpHash);
+        _animator.SetTrigger(dodgeHash);
     }
+
+    public void NotifyAnimationFinished() => _playerEvents.RaiseOnAnimationFinish();
 }

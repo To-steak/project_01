@@ -5,6 +5,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public TMP_Text CurrentState;
+    public TMP_Text CurrentSpeed;
 
     [SerializeField] private GameObject player;
     [SerializeField] private CinemachineCamera cinemachine;
@@ -25,6 +26,7 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        CurrentState.text = $"{_controller.State}";
+        CurrentState.text = $"Current State: {_controller.CurrentState}";
+        CurrentSpeed.text = $"Current Speed: {_controller.Movements.Speed}";
     }
 }

@@ -4,13 +4,15 @@ using UnityEngine;
 public class PlayerMovements : MonoBehaviour
 {
     public bool IsGround { get; private set; }
+    public float Speed => _speed; // Only use Debug
 
-    [SerializeField] private Transform FBX;
+    [SerializeField] private Transform model;
 
     private CharacterController _characterController;
     private PlayerConfig _config;
     private PlayerEvents _playerEvents;
     private Camera _mainCamera;
+    private bool _isRotationLocked;
     private float _speed;
     private float _verticalVelocity;
     private const float PRESS = -2f;
@@ -22,6 +24,7 @@ public class PlayerMovements : MonoBehaviour
         _config = config;
         _playerEvents = playerEvents;
         _mainCamera = Camera.main;
+        _isRotationLocked = false;
         _speed = _config.WalkSpeed;
 
         if (!TryGetComponent<CharacterController>(out _characterController))
@@ -62,23 +65,21 @@ public class PlayerMovements : MonoBehaviour
             return;
         }
 
-        Ray ray = _mainCamera.ScreenPointToRay(value);
-        Plane plane = new Plane(Vector3.up, new Vector3(0f, transform.position.y, 0));
-
-        if (plane.Raycast(ray, out float distance))
+        if (!_isRotationLocked)
         {
-            Vector3 hit = ray.GetPoint(distance);
-            Vector3 direction = hit - transform.position;
-            direction.y = 0f;
+            Ray ray = _mainCamera.ScreenPointToRay(value);
+            Plane plane = new Plane(Vector3.up, new Vector3(0f, transform.position.y, 0));
 
-            if (direction.sqrMagnitude > LOOK_SQRT_THRESHOLD)
+            if (plane.Raycast(ray, out float distance))
             {
-                Quaternion rotation = Quaternion.LookRotation(direction);
-                Vector3 euler = FBX.eulerAngles;
-                float yaw = rotation.eulerAngles.y;
-                rotation = Quaternion.Euler(euler.x, yaw, euler.z);
+                Vector3 hit = ray.GetPoint(distance);
+                Vector3 direction = hit - transform.position;
+                direction.y = 0f;
 
-                FBX.rotation = Quaternion.Slerp(FBX.rotation, rotation, _config.LookSpeed * Time.deltaTime);
+                if (direction.sqrMagnitude > LOOK_SQRT_THRESHOLD)
+                {
+                    RotateFBX(direction);
+                }
             }
         }
     }
@@ -100,6 +101,17 @@ public class PlayerMovements : MonoBehaviour
         _direction = input;
     }
 
+    public void SetRotationLock(bool value)
+    {
+        _isRotationLocked = value;
+    }
+
+    public void DoDodge()
+    {
+        _speed = _config.DodgeSpeed;
+        RotateFBX(GetCameraDirection(_direction));
+    }
+
     private Vector3 GetCameraDirection(Vector3 direction)
     {
         if (_mainCamera == null) return direction;
@@ -111,6 +123,21 @@ public class PlayerMovements : MonoBehaviour
         camRight.y = 0f;
 
         return (camForward * direction.z) + (camRight * direction.x);
+    }
+
+    private void RotateFBX(Vector3 direction)
+    {
+        if (model == null)
+        {
+            return;
+        }
+
+        Quaternion rotation = Quaternion.LookRotation(direction);
+        Vector3 euler = model.eulerAngles;
+        float yaw = rotation.eulerAngles.y;
+        rotation = Quaternion.Euler(euler.x, yaw, euler.z);
+
+        model.rotation = rotation;
     }
 
 #if UNITY_EDITOR

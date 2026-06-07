@@ -18,16 +18,25 @@ public class PlayerMoveState : PlayerState
 
     public override void Tick()
     {
-        if (Inputs.Move == Vector2.zero)
+        Vector3 input = Inputs.Move;
+        bool isRun = Inputs.Run;
+
+        if (input == Vector3.zero)
         {
             _controller.ChangeState<PlayerIdleState>();
             return;
         }
 
-        Movements.SetDirection(new Vector3(Inputs.Move.x, 0f, Inputs.Move.y));
-
-        bool isRun = Inputs.Run;
+        Movements.SetDirection(input);
         Movements.SetRunning(isRun);
         Animations.PlayMove(isRun);
+    }
+
+    public override void HandleDodge()
+    {
+        if (Movements.IsGround)
+        {
+            _controller.ChangeState<PlayerDodgeState>();
+        }
     }
 }
