@@ -10,7 +10,7 @@ public class PlayerIdleState : PlayerState
     public override void Enter()
     {
         Movements.SetDirection(Vector3.zero);
-        Animations.PlayIdle();
+
     }
 
     public override void Exit()
@@ -23,6 +23,9 @@ public class PlayerIdleState : PlayerState
         if (Inputs.Move != Vector2.zero)
         {
             _controller.ChangeState<PlayerMoveState>();
+            return;
         }
+        
+        Animations.PlayIdle();
     }
 }

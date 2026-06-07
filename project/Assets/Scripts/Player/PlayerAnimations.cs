@@ -2,12 +2,15 @@ using UnityEngine;
 
 public class PlayerAnimations : MonoBehaviour
 {
-    private int walkHash = Animator.StringToHash("Walk");
-    private int runHash = Animator.StringToHash("Run");
+    private int speedHash = Animator.StringToHash("Speed");
     private int jumpHash = Animator.StringToHash("Jump");
 
     private Animator _animator;
     private PlayerEvents _playerEvents;
+    private const float IDLE = 0f;
+    private const float WALK = 0.5f;
+    private const float RUN = 1.0f;
+    private const float DAMPTIME = 0.1f;
 
     public void Initialize(PlayerEvents playerEvents)
     {
@@ -24,18 +27,12 @@ public class PlayerAnimations : MonoBehaviour
 
     public void PlayIdle()
     {
-        _animator.Play("Idle");
+        _animator.SetFloat(speedHash, IDLE, DAMPTIME, Time.deltaTime);
     }
 
-    public void PlayWalk(bool value)
+    public void PlayMove(bool value)
     {
-        _animator.SetBool(walkHash, value);
-
-    }
-
-    public void PlayRun(bool value)
-    {
-        _animator.SetBool(runHash, value);
+        _animator.SetFloat(speedHash, value ? RUN : WALK, DAMPTIME, Time.deltaTime);
     }
 
     public void PlayJump()

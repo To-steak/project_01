@@ -8,14 +8,12 @@ public class PlayerMoveState : PlayerState
 
     public override void Enter()
     {
-        Animations.PlayWalk(true);
-        Movements.SetRunning(false);
+
     }
 
     public override void Exit()
     {
-        Animations.PlayWalk(false);
-        Movements.SetRunning(false);
+
     }
 
     public override void Tick()
@@ -28,8 +26,8 @@ public class PlayerMoveState : PlayerState
 
         Movements.SetDirection(new Vector3(Inputs.Move.x, 0f, Inputs.Move.y));
 
-
-        Animations.PlayRun(Inputs.Run);
-        Movements.SetRunning(Inputs.Run);
+        bool isRun = Inputs.Run;
+        Movements.SetRunning(isRun);
+        Animations.PlayMove(isRun);
     }
 }
