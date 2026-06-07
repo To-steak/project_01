@@ -3,6 +3,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerInputs : MonoBehaviour
 {
+    public bool Attack { get; private set; }
     public Vector2 Look { get; private set; }
     public Vector3 Move { get; private set; }
     public bool Run { get; private set; }
@@ -60,10 +61,6 @@ public class PlayerInputs : MonoBehaviour
     public void Initialize(PlayerEvents playerEvents)
     {
         _playerEvents = playerEvents;
-
-#if UNITY_EDITOR
-        Debug.Log($"PlayerInputs.<color=magenta>Initialize</color>");
-#endif
     }
 
     private void OnMove(InputAction.CallbackContext context)
@@ -93,6 +90,7 @@ public class PlayerInputs : MonoBehaviour
 #if UNITY_EDITOR
         Debug.Log($"PlayerInputs.<color=magenta>OnAttack</color>: <color=orange>{input}</color>");
 #endif
+        Attack = context.ReadValueAsButton();
     }
 
     private void OnSwap(InputAction.CallbackContext context)

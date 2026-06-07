@@ -28,6 +28,7 @@ public class PlayerController : MonoBehaviour
         _states[typeof(PlayerIdleState)] = new PlayerIdleState(this);
         _states[typeof(PlayerMoveState)] = new PlayerMoveState(this);
         _states[typeof(PlayerDodgeState)] = new PlayerDodgeState(this);
+        _states[typeof(PlayerAttackState)] = new PlayerAttackState(this);
 
         _playerState = _states[typeof(PlayerIdleState)];
 

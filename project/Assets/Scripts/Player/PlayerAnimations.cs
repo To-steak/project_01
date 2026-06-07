@@ -4,6 +4,7 @@ public class PlayerAnimations : MonoBehaviour, IAnimationEventReceiver
 {
     private readonly int speedHash = Animator.StringToHash("Speed");
     private readonly int dodgeHash = Animator.StringToHash("Dodge");
+    private readonly int shotHash = Animator.StringToHash("Shot");
 
     private Animator _animator;
     private PlayerEvents _playerEvents;
@@ -37,6 +38,11 @@ public class PlayerAnimations : MonoBehaviour, IAnimationEventReceiver
     public void PlayDodge()
     {
         _animator.SetTrigger(dodgeHash);
+    }
+
+    public void PlayShot(bool value)
+    {
+        _animator.SetBool(shotHash, value);
     }
 
     public void NotifyAnimationFinished() => _playerEvents.RaiseOnAnimationFinish();

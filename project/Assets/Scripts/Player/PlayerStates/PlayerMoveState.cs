@@ -3,6 +3,7 @@ using UnityEngine;
 public class PlayerMoveState : PlayerState
 {
     private const float INPUT_SQRT_THRESHOLD = 0.01f;
+    
     public PlayerMoveState(PlayerController playerController) : base(playerController)
     {
     }
@@ -20,8 +21,6 @@ public class PlayerMoveState : PlayerState
     public override void Tick()
     {
         Vector3 input = Inputs.Move;
-        bool isRun = Inputs.Run;
-
         if (input == Vector3.zero)
         {
             _controller.ChangeState<PlayerIdleState>();
@@ -29,9 +28,17 @@ public class PlayerMoveState : PlayerState
         }
 
         Movements.SetDirection(input);
-        Movements.SetRunning(isRun);
 
+        bool isRun = Inputs.Run;
+        Movements.SetRunning(isRun);
         Animations.PlayMove(isRun);
+
+        bool attack = Inputs.Attack;
+        if (attack)
+        {
+            _controller.ChangeState<PlayerAttackState>();
+            return;
+        }
     }
 
     public override void HandleDodge()
