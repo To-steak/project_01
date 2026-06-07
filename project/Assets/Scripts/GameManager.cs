@@ -1,11 +1,15 @@
 using TMPro;
+using Unity.Cinemachine;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private GameObject player;
-    PlayerController controller;
     public TMP_Text CurrentState;
+
+    [SerializeField] private GameObject player;
+    [SerializeField] private CinemachineCamera cinemachine;
+
+    private PlayerController _controller;
 
     void Awake()
     {
@@ -14,12 +18,13 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        var go = Instantiate(player, Vector3.up, Quaternion.identity);
-        controller = go.GetComponent<PlayerController>();
+        _controller = Instantiate(player, Vector3.up, Quaternion.identity).GetComponent<PlayerController>();
+
+        cinemachine.Follow = _controller.gameObject.transform;
     }
 
     void Update()
     {
-        CurrentState.text = $"{controller.State.ToString()}";
+        CurrentState.text = $"{_controller.State}";
     }
 }

@@ -80,7 +80,17 @@ public class PlayerMovements : MonoBehaviour
         {
             Gizmos.color = Color.red;
         }
-        Gizmos.DrawWireSphere(transform.position + _config.GroundCheckOffset, _config.GroundDistance);
+
+        Vector3 groundCheckOffset = Vector3.up * -0.6f;
+        float groundDistance = .2f;
+
+        if (_config != null)
+        {
+            groundCheckOffset = _config.GroundCheckOffset;
+            groundDistance = _config.GroundDistance;
+        }
+
+        Gizmos.DrawWireSphere(transform.position + groundCheckOffset, groundDistance);
     }
 #endif
 }
