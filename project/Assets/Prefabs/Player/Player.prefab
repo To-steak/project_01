@@ -162,7 +162,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7dcf0dd5d5d685440a467f8343ada336, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovements
-  FBX: {fileID: 940642685663486409}
+  model: {fileID: 940642685663486409}
 --- !u!114 &8177708744590368570
 MonoBehaviour:
   m_ObjectHideFlags: 0

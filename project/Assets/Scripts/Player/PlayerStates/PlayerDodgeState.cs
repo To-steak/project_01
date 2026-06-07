@@ -8,10 +8,7 @@ public class PlayerDodgeState : PlayerState
 
     public override void Enter()
     {
-        Vector3 input = Inputs.Move;
-        
         Movements.SetRotationLock(true);
-        Movements.SetDirection(input);
         Movements.DoDodge();
         Animations.PlayDodge();
     }

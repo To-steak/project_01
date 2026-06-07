@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class PlayerMoveState : PlayerState
 {
+    private const float INPUT_SQRT_THRESHOLD = 0.01f;
     public PlayerMoveState(PlayerController playerController) : base(playerController)
     {
     }
@@ -29,11 +30,18 @@ public class PlayerMoveState : PlayerState
 
         Movements.SetDirection(input);
         Movements.SetRunning(isRun);
+        
+        // Animations.PlayMove(input, isRun);
         Animations.PlayMove(isRun);
     }
 
     public override void HandleDodge()
     {
+        if (Inputs.Move.sqrMagnitude < INPUT_SQRT_THRESHOLD)
+        {
+            return;
+        }
+
         if (Movements.IsGround)
         {
             _controller.ChangeState<PlayerDodgeState>();

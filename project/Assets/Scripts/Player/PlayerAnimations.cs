@@ -8,8 +8,8 @@ public class PlayerAnimations : MonoBehaviour, IAnimationEventReceiver
     private Animator _animator;
     private PlayerEvents _playerEvents;
     private const float IDLE = 0f;
-    private const float WALK = 0.5f;
-    private const float RUN = 1.0f;
+    private const float WALK = 1.0f;
+    private const float RUN = 2.0f;
 
     public void Initialize(PlayerEvents playerEvents)
     {
@@ -24,6 +24,18 @@ public class PlayerAnimations : MonoBehaviour, IAnimationEventReceiver
         }
     }
 
+    public void PlayMove(Vector3 input, bool value)
+    {
+        if (input == Vector3.zero)
+        {
+            _animator.SetFloat(speedHash, IDLE);
+        }
+        else
+        {
+            _animator.SetFloat(speedHash, value ? RUN : WALK);
+        }
+    }
+
     public void PlayIdle()
     {
         _animator.SetFloat(speedHash, IDLE);
@@ -33,7 +45,7 @@ public class PlayerAnimations : MonoBehaviour, IAnimationEventReceiver
     {
         _animator.SetFloat(speedHash, value ? RUN : WALK);
     }
-
+    
     public void PlayDodge()
     {
         _animator.SetTrigger(dodgeHash);

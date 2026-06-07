@@ -9,7 +9,11 @@ public class PlayerIdleState : PlayerState
 
     public override void Enter()
     {
+        Vector3 input = Inputs.Move;
+        bool isRun = Inputs.Run;
+
         Movements.SetDirection(Vector3.zero);
+        // Animations.PlayMove(input, isRun);
         Animations.PlayIdle();
     }
 

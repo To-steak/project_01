@@ -19,12 +19,10 @@ public class AnimationFinished : StateMachineBehaviour
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        Debug.Log($"Notify: {stateInfo.normalizedTime}");
         if (!_isTriggered && stateInfo.normalizedTime >= finishTime)
         {
             _isTriggered = true;
             _receiver?.NotifyAnimationFinished();
-            
         }
     }
 }
