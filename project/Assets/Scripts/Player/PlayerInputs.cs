@@ -3,6 +3,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerInputs : MonoBehaviour
 {
+    public Vector2 Look { get; private set; }
     public Vector2 Move { get; private set; }
     public bool Run { get; private set; }
 
@@ -24,7 +25,8 @@ public class PlayerInputs : MonoBehaviour
         _actions.Combat.Run.performed += OnRun;
         _actions.Combat.Run.canceled += OnRun;
 
-        _actions.Combat.Jump.performed += OnJump;
+        _actions.Combat.Look.performed += OnLook;
+        _actions.Combat.Look.canceled += OnLook;
 
         _actions.Combat.Dodge.performed += OnDodge;
 
@@ -40,9 +42,10 @@ public class PlayerInputs : MonoBehaviour
         _actions.Combat.Move.canceled -= OnMove;
 
         _actions.Combat.Run.performed -= OnRun;
-        _actions.Combat.Run.canceled += OnRun;
+        _actions.Combat.Run.canceled -= OnRun;
 
-        _actions.Combat.Jump.performed -= OnJump;
+        _actions.Combat.Look.performed -= OnLook;
+        _actions.Combat.Look.canceled -= OnLook;
 
         _actions.Combat.Dodge.performed -= OnDodge;
 
@@ -65,34 +68,17 @@ public class PlayerInputs : MonoBehaviour
 
     private void OnMove(InputAction.CallbackContext context)
     {
-        if (context.performed)
-        {
-            Move = context.ReadValue<Vector2>();
-        }
-        else if (context.canceled)
-        {
-            Move = Vector2.zero;
-        }
+        Move = context.ReadValue<Vector2>();
     }
 
     private void OnRun(InputAction.CallbackContext context)
     {
-        if (context.performed)
-        {
-            Run = true;
-        }
-        else if (context.canceled)
-        {
-            Run = false;
-        }
+        Run = context.ReadValueAsButton();
     }
 
-    private void OnJump(InputAction.CallbackContext context)
+    private void OnLook(InputAction.CallbackContext context)
     {
-        if (context.performed)
-        {
-            _playerEvents.RaiseOnJump();
-        }
+        Look = context.ReadValue<Vector2>();
     }
 
     private void OnDodge(InputAction.CallbackContext context)

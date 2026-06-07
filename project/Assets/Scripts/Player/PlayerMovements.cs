@@ -5,12 +5,17 @@ public class PlayerMovements : MonoBehaviour
 {
     public bool IsGround { get; private set; }
 
+    [SerializeField] private Transform FBX;
+
     private CharacterController _characterController;
     private PlayerConfig _config;
     private PlayerEvents _playerEvents;
     private Camera _mainCamera;
     private float _speed;
+    private float _verticalVelocity;
+    private const float PRESS = -2f;
     private Vector3 _direction;
+    private const float LOOK_SQRT_THRESHOLD = 0.01f;
 
     public void Initialize(PlayerConfig config, PlayerEvents playerEvents)
     {
@@ -35,8 +40,47 @@ public class PlayerMovements : MonoBehaviour
         Vector3 CheckSphere = transform.position + _config.GroundCheckOffset;
         IsGround = Physics.CheckSphere(CheckSphere, _config.GroundDistance, _config.GroundLayer);
 
+        if (IsGround && _verticalVelocity < 0)
+        {
+            _verticalVelocity = PRESS;
+        }
+
+        _verticalVelocity += _config.Gravity * Time.deltaTime;
+
         Vector3 direction = GetCameraDirection(_direction);
-        _characterController.Move(direction * _speed * Time.deltaTime);
+        Vector3 move = direction * _speed;
+
+        move.y = _verticalVelocity;
+
+        _characterController.Move(move * Time.deltaTime);
+    }
+
+    public void Look(Vector2 value)
+    {
+        if (_mainCamera == null)
+        {
+            return;
+        }
+
+        Ray ray = _mainCamera.ScreenPointToRay(value);
+        Plane plane = new Plane(Vector3.up, new Vector3(0f, transform.position.y, 0));
+
+        if (plane.Raycast(ray, out float distance))
+        {
+            Vector3 hit = ray.GetPoint(distance);
+            Vector3 direction = hit - transform.position;
+            direction.y = 0f;
+
+            if (direction.sqrMagnitude > LOOK_SQRT_THRESHOLD)
+            {
+                Quaternion rotation = Quaternion.LookRotation(direction);
+                Vector3 euler = FBX.eulerAngles;
+                float yaw = rotation.eulerAngles.y;
+                rotation = Quaternion.Euler(euler.x, yaw, euler.z);
+
+                FBX.rotation = Quaternion.Slerp(FBX.rotation, rotation, _config.LookSpeed * Time.deltaTime);
+            }
+        }
     }
 
     public void SetRunning(bool value)
@@ -70,6 +114,9 @@ public class PlayerMovements : MonoBehaviour
     }
 
 #if UNITY_EDITOR
+    /// <summary>
+    /// Only Runtime 
+    /// </summary>
     private void OnDrawGizmos()
     {
         if (IsGround)

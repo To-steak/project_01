@@ -15,7 +15,8 @@ MonoBehaviour:
   WalkSpeed: 5
   RunSpeed: 8
   JumpForce: 10
-  GroundCheckOffset: {x: 0, y: -1, z: 0}
+  Gravity: -9.81
+  GroundCheckOffset: {x: 0, y: -0.6, z: 0}
   GroundDistance: 0.2
   GroundLayer:
     serializedVersion: 2
