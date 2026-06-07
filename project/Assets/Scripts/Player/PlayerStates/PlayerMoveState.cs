@@ -30,8 +30,7 @@ public class PlayerMoveState : PlayerState
 
         Movements.SetDirection(input);
         Movements.SetRunning(isRun);
-        
-        // Animations.PlayMove(input, isRun);
+
         Animations.PlayMove(isRun);
     }
 
