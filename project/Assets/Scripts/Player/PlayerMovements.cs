@@ -33,9 +33,6 @@ public class PlayerMovements : MonoBehaviour
             Debug.LogError($"PlayerMovements: CharacterController Component is null");
 #endif
         }
-#if UNITY_EDITOR
-        Debug.Log($"PlayerMovements.<color=magenta>Initialize</color>");
-#endif
     }
 
     public void Tick()

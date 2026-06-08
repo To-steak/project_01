@@ -23,14 +23,15 @@ public class PlayerIdleState : PlayerState
         Vector3 input = Inputs.Move;
         if (input != Vector3.zero)
         {
-            _controller.ChangeState<PlayerMoveState>();
+            _controller.ChangeState(_controller.Move);
             return;
         }
 
         bool attack = Inputs.Attack;
         if (attack)
         {
-            _controller.ChangeState<PlayerAttackState>();
+            var state = Weapons.GetAttackState(_controller);
+            _controller.ChangeState(state);
             return;
         }
     }

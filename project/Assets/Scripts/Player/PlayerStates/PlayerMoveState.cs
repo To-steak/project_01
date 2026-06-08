@@ -3,7 +3,7 @@ using UnityEngine;
 public class PlayerMoveState : PlayerState
 {
     private const float INPUT_SQRT_THRESHOLD = 0.01f;
-    
+
     public PlayerMoveState(PlayerController playerController) : base(playerController)
     {
     }
@@ -23,7 +23,7 @@ public class PlayerMoveState : PlayerState
         Vector3 input = Inputs.Move;
         if (input == Vector3.zero)
         {
-            _controller.ChangeState<PlayerIdleState>();
+            _controller.ChangeState(_controller.Idle);
             return;
         }
 
@@ -36,7 +36,8 @@ public class PlayerMoveState : PlayerState
         bool attack = Inputs.Attack;
         if (attack)
         {
-            _controller.ChangeState<PlayerAttackState>();
+            var state = Weapons.GetAttackState(_controller);
+            _controller.ChangeState(state);
             return;
         }
     }
@@ -50,7 +51,7 @@ public class PlayerMoveState : PlayerState
 
         if (Movements.IsGround)
         {
-            _controller.ChangeState<PlayerDodgeState>();
+            _controller.ChangeState(_controller.Dodge);
         }
     }
 }

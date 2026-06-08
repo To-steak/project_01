@@ -1,87 +1,83 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(PlayerInputs))]
 [RequireComponent(typeof(PlayerMovements))]
 [RequireComponent(typeof(PlayerAnimations))]
+[RequireComponent(typeof(PlayerWeapons))]
 public class PlayerController : MonoBehaviour
 {
-    public PlayerInputs Inputs => _playerInputs;
-    public PlayerMovements Movements => _playerMovements;
-    public PlayerAnimations Animations => _playerAnimations;
-    public PlayerState CurrentState => _playerState; // Only use Debug
-
     [SerializeField] private PlayerConfig _config;
 
-    private PlayerInputs _playerInputs;
-    private PlayerMovements _playerMovements;
-    private PlayerAnimations _playerAnimations;
-    private PlayerEvents _playerEvents;
-    private PlayerState _playerState;
-    private Dictionary<System.Type, PlayerState> _states;
+    public PlayerInputs Inputs { get; private set; }
+    public PlayerMovements Movements { get; private set; }
+    public PlayerAnimations Animations { get; private set; }
+    public PlayerWeapons Weapons { get; private set; }
+    public PlayerEvents Events { get; private set; }
 
+    public PlayerState CurrentState => _currentState; // Only use Debug
+    private PlayerState _currentState;
+
+    public PlayerIdleState Idle { get; private set; }
+    public PlayerMoveState Move { get; private set; }
+    public PlayerDodgeState Dodge { get; private set; }
+    public PlayerShotState Shot { get; private set; }
+    public PlayerSwingState Swing { get; private set; }
+    
     void Awake()
     {
-        _playerEvents = new PlayerEvents();
-        _states = new Dictionary<System.Type, PlayerState>();
+        Idle = new PlayerIdleState(this);
+        Move = new PlayerMoveState(this);
+        Dodge = new PlayerDodgeState(this);
+        Shot = new PlayerShotState(this);
+        Swing = new PlayerSwingState(this);
 
-        _states[typeof(PlayerIdleState)] = new PlayerIdleState(this);
-        _states[typeof(PlayerMoveState)] = new PlayerMoveState(this);
-        _states[typeof(PlayerDodgeState)] = new PlayerDodgeState(this);
-        _states[typeof(PlayerAttackState)] = new PlayerAttackState(this);
+        _currentState = Idle;
 
-        _playerState = _states[typeof(PlayerIdleState)];
+        Inputs = GetComponent<PlayerInputs>();
+        Movements = GetComponent<PlayerMovements>();
+        Animations = GetComponent<PlayerAnimations>();
+        Weapons = GetComponent<PlayerWeapons>();
+        Events = new PlayerEvents();
 
-        if (TryGetComponent<PlayerInputs>(out _playerInputs))
-        {
-            _playerInputs.Initialize(playerEvents: _playerEvents);
-        }
-
-        if (TryGetComponent<PlayerMovements>(out _playerMovements))
-        {
-            _playerMovements.Initialize(config: _config, playerEvents: _playerEvents);
-        }
-
-        if (TryGetComponent<PlayerAnimations>(out _playerAnimations))
-        {
-            _playerAnimations.Initialize(playerEvents: _playerEvents);
-        }
-    }
-
-    void Start()
-    {
-
+        Inputs.Initialize(playerEvents: Events);
+        Movements.Initialize(config: _config, playerEvents: Events);
+        Animations.Initialize(playerEvents: Events);
+        Weapons.Initialize();
     }
 
     void OnEnable()
     {
-        _playerEvents.DodgeRequest += HandleDodgeRequest;
-        _playerEvents.AnimationFinishRequest += HandleAnimationFinish;
+        Events.DodgeRequest += HandleDodgeRequest;
+        Events.SwapRequest += HandleSwapRequest;
+        Events.AnimationFinishRequest += HandleAnimationFinish;
     }
 
     void OnDisable()
     {
-        _playerEvents.DodgeRequest -= HandleDodgeRequest;
-        _playerEvents.AnimationFinishRequest += HandleAnimationFinish;
+        Events.DodgeRequest -= HandleDodgeRequest;
+        Events.SwapRequest -= HandleSwapRequest;
+        Events.AnimationFinishRequest -= HandleAnimationFinish;
     }
 
     void Update()
     {
-        _playerState.Tick();                            // 1. 입력을 받아서
-        _playerMovements.Tick();                        // 2. 이동을 먼저 하고
-        _playerMovements.Look(_playerInputs.Look);      // 3. 이동 완료한 좌표를 기준으로 Look 계산
+        _currentState.Tick(); // 1. 입력을 받아서
+        Movements.Tick(); // 2. 이동을 먼저 하고
+        Movements.Look(Inputs.Look); // 3. 이동 완료한 좌표를 기준으로 Look 계산
     }
 
-    public void ChangeState<T>() where T : PlayerState
+    public void ChangeState(PlayerState newState)
     {
-        if (_states.TryGetValue(typeof(T), out var newState))
-        {
-            _playerState.Exit();
-            _playerState = newState;
-            _playerState.Enter();
-        }
+        _currentState.Exit();
+        _currentState = newState;
+        _currentState.Enter();
     }
 
-    private void HandleDodgeRequest() => _playerState.HandleDodge();
-    private void HandleAnimationFinish() => _playerState.HandleAnimationFinish();
+    // Input
+    private void HandleDodgeRequest() => _currentState.HandleDodge();
+    private void HandleSwapRequest(int index) => _currentState.HandleSwap(index);
+    // Animation
+    private void HandleAnimationFinish() => _currentState.HandleAnimationFinish();
 }

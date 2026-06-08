@@ -1,20 +1,20 @@
 using UnityEngine;
 
-public class PlayerAttackState : PlayerState
+public class PlayerSwingState : PlayerState
 {
-    public PlayerAttackState(PlayerController playerController) : base(playerController)
+    public PlayerSwingState(PlayerController playerController) : base(playerController)
     {
     }
 
     public override void Enter()
     {
         Movements.SetDirection(Vector3.zero);
-        Animations.PlayShot(true);
+        Animations.PlaySwing(true);
     }
 
     public override void Exit()
     {
-        Animations.PlayShot(false);
+        Animations.PlaySwing(false);
     }
 
     public override void Tick()
@@ -22,7 +22,7 @@ public class PlayerAttackState : PlayerState
         bool attack = Inputs.Attack;
         if (!attack)
         {
-            _controller.ChangeState<PlayerIdleState>();
+            _controller.ChangeState(_controller.Idle);
             return;
         }
     }

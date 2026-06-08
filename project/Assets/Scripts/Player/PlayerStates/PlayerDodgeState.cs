@@ -25,6 +25,6 @@ public class PlayerDodgeState : PlayerState
 
     public override void HandleAnimationFinish()
     {
-        _controller.ChangeState<PlayerIdleState>();
+        _controller.ChangeState(_controller.Idle);
     }
 }

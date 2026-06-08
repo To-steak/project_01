@@ -9,7 +9,7 @@ public class PlayerInputs : MonoBehaviour
     public bool Run { get; private set; }
 
     private Player_Actions _actions;
-    private PlayerEvents _playerEvents;
+    private PlayerEvents _events;
 
     void Awake()
     {
@@ -60,7 +60,7 @@ public class PlayerInputs : MonoBehaviour
 
     public void Initialize(PlayerEvents playerEvents)
     {
-        _playerEvents = playerEvents;
+        _events = playerEvents;
     }
 
     private void OnMove(InputAction.CallbackContext context)
@@ -81,7 +81,7 @@ public class PlayerInputs : MonoBehaviour
 
     private void OnDodge(InputAction.CallbackContext context)
     {
-        if (context.performed) _playerEvents.RaiseOnDodge();
+        if (context.performed) _events.RaiseOnDodge();
     }
 
     private void OnAttack(InputAction.CallbackContext context)
@@ -95,7 +95,8 @@ public class PlayerInputs : MonoBehaviour
 
     private void OnSwap(InputAction.CallbackContext context)
     {
-
+        var index = (int)context.ReadValue<float>() - 1;
+        _events.RaiseOnSwap(index);
     }
 
     private void OnReload(InputAction.CallbackContext context)
