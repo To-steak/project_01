@@ -4,7 +4,6 @@ public class PlayerIdleState : PlayerState
 {
     public PlayerIdleState(PlayerController playerController) : base(playerController)
     {
-
     }
 
     public override void Enter()

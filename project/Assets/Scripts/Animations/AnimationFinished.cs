@@ -19,10 +19,17 @@ public class AnimationFinished : StateMachineBehaviour
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (!_isTriggered && stateInfo.normalizedTime >= finishTime)
+        float loop = stateInfo.normalizedTime % 1.0f;
+        
+        if (!_isTriggered && loop >= finishTime)
         {
             _isTriggered = true;
             _receiver?.NotifyAnimationFinished();
+        }
+
+        if (_isTriggered && loop < finishTime)
+        {
+            _isTriggered = false;
         }
     }
 }

@@ -11,4 +11,7 @@ public class PlayerEvents
 
     public event Action AnimationFinishRequest;
     public void RaiseOnAnimationFinish() => AnimationFinishRequest?.Invoke();
+
+    public event Action AnimationCommitRequest;
+    public void RaiseOnAnimationCommit() => AnimationCommitRequest?.Invoke();
 }

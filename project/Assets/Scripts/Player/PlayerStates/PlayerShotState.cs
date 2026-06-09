@@ -26,4 +26,14 @@ public class PlayerShotState : PlayerState
             return;
         }
     }
+
+    public override void HandleAnimationFinish()
+    {
+        Debug.Log("Finished");
+    }
+
+    public override void HandleAnimationCommit()
+    {
+        Debug.Log("Shot");
+    }
 }

@@ -14,13 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetGroup
   m_GroupName: Default Local Group
   m_GUID: 594c28b43bf357e43b99d426ac0544dd
-  m_SerializeEntries:
-  - m_GUID: 907f7f48d71d84e4488a7a92a4347411
-    m_Address: Assets/Scripts/Scriptable Objects/Gun01.asset
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - Weapon
-    FlaggedDuringContentUpdateRestriction: 0
+  m_SerializeEntries: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 62d14da72122d4c4fada9ea91b89fae1, type: 2}
   m_SchemaSet:

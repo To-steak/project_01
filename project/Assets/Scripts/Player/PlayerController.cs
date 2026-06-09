@@ -51,16 +51,22 @@ public class PlayerController : MonoBehaviour
 
     void OnEnable()
     {
+        // Input
         Events.DodgeRequest += HandleDodgeRequest;
         Events.SwapRequest += HandleSwapRequest;
+        // Animation
         Events.AnimationFinishRequest += HandleAnimationFinish;
+        Events.AnimationCommitRequest += HandleAnimationCommit;
     }
 
     void OnDisable()
     {
+        // Input
         Events.DodgeRequest -= HandleDodgeRequest;
         Events.SwapRequest -= HandleSwapRequest;
+        // Animation
         Events.AnimationFinishRequest -= HandleAnimationFinish;
+        Events.AnimationCommitRequest -= HandleAnimationCommit;
     }
 
     void Update()
@@ -82,4 +88,5 @@ public class PlayerController : MonoBehaviour
     private void HandleSwapRequest(int index) => _currentState.HandleSwap(index);
     // Animation
     private void HandleAnimationFinish() => _currentState.HandleAnimationFinish();
+    private void HandleAnimationCommit() => _currentState.HandleAnimationCommit();
 }

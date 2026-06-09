@@ -19,4 +19,5 @@ public abstract class PlayerState
     public virtual void HandleDodge() { }
     public virtual void HandleSwap(int index) { }
     public virtual void HandleAnimationFinish() { }
+    public virtual void HandleAnimationCommit() { }
 }
