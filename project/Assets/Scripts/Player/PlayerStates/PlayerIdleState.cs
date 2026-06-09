@@ -35,4 +35,15 @@ public class PlayerIdleState : PlayerState
             return;
         }
     }
+
+    public override void HandleSwap(int index)
+    {
+        if (Movements.IsGround)
+        {
+            if (Weapons.TrySwapWeapon(index))
+            {
+                _controller.ChangeState(_controller.Swap);
+            }
+        }
+    }
 }

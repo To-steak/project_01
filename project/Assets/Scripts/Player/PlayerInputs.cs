@@ -34,6 +34,8 @@ public class PlayerInputs : MonoBehaviour
         _actions.Combat.Attack.performed += OnAttack;
         _actions.Combat.Attack.canceled += OnAttack;
 
+        _actions.Combat.Swap.performed += OnSwap;
+
         _actions.Combat.Reload.performed += OnReload;
     }
 
@@ -54,6 +56,8 @@ public class PlayerInputs : MonoBehaviour
         _actions.Combat.Attack.canceled -= OnAttack;
 
         _actions.Combat.Reload.performed -= OnReload;
+
+        _actions.Combat.Swap.performed -= OnSwap;
 
         _actions.Combat.Disable();
     }
@@ -79,24 +83,19 @@ public class PlayerInputs : MonoBehaviour
         Look = context.ReadValue<Vector2>();
     }
 
+    private void OnAttack(InputAction.CallbackContext context)
+    {
+        Attack = context.ReadValueAsButton();
+    }
+
     private void OnDodge(InputAction.CallbackContext context)
     {
         if (context.performed) _events.RaiseOnDodge();
     }
 
-    private void OnAttack(InputAction.CallbackContext context)
-    {
-        var input = context.ReadValueAsButton();
-#if UNITY_EDITOR
-        Debug.Log($"PlayerInputs.<color=magenta>OnAttack</color>: <color=orange>{input}</color>");
-#endif
-        Attack = context.ReadValueAsButton();
-    }
-
     private void OnSwap(InputAction.CallbackContext context)
     {
-        var index = (int)context.ReadValue<float>() - 1;
-        _events.RaiseOnSwap(index);
+        if (context.performed) _events.RaiseOnSwap((int)context.ReadValue<float>());
     }
 
     private void OnReload(InputAction.CallbackContext context)

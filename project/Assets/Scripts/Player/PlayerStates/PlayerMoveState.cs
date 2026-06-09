@@ -54,4 +54,15 @@ public class PlayerMoveState : PlayerState
             _controller.ChangeState(_controller.Dodge);
         }
     }
+
+    public override void HandleSwap(int index)
+    {
+        if (Movements.IsGround)
+        {
+            if (Weapons.TrySwapWeapon(index))
+            {
+                _controller.ChangeState(_controller.Swap);
+            }
+        }
+    }
 }

@@ -6,16 +6,21 @@ public class PlayerSwapState : PlayerState
 
     public override void Enter()
     {
-        throw new System.NotImplementedException();
+        Animations.PlaySwap();
     }
 
     public override void Exit()
     {
-        throw new System.NotImplementedException();
+        
     }
 
     public override void Tick()
     {
-        throw new System.NotImplementedException();
+        
+    }
+
+    public override void HandleAnimationFinish()
+    {
+        _controller.ChangeState(_controller.Idle);
     }
 }

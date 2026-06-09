@@ -96,6 +96,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: b90e9ffb-d031-4bc0-afc9-149ba71ff457
     m_ActionName: UI/New action
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 8e9459f1-74f3-49f4-b3d1-b89d277af70b
+    m_ActionName: 'Combat/Swap[/Keyboard/1,/Keyboard/2,/Keyboard/3]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: PC Control Scheme
   m_DefaultActionMap: Combat
@@ -190,6 +194,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerWeapons
   weapons:
   - {fileID: 11400000, guid: 078afe8b921271c459673fca3cd4c531, type: 2}
+  - {fileID: 11400000, guid: 907f7f48d71d84e4488a7a92a4347411, type: 2}
   hand: {fileID: 3261898790909190969}
   muzzle: {fileID: 5876498800636445141}
 --- !u!1 &3251624721256208526

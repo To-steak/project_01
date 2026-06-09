@@ -157,12 +157,12 @@ public partial class @Player_Actions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""Swap"",
-                    ""type"": ""PassThrough"",
+                    ""type"": ""Value"",
                     ""id"": ""8e9459f1-74f3-49f4-b3d1-b89d277af70b"",
                     ""expectedControlType"": ""Axis"",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": false
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -292,7 +292,7 @@ public partial class @Player_Actions: IInputActionCollection2, IDisposable
                     ""id"": ""a6c68070-dfef-4a9f-a9d5-cc4ab38b84bd"",
                     ""path"": ""<Keyboard>/1"",
                     ""interactions"": """",
-                    ""processors"": ""Scale"",
+                    ""processors"": ""Scale(factor=0)"",
                     ""groups"": """",
                     ""action"": ""Swap"",
                     ""isComposite"": false,
@@ -303,7 +303,7 @@ public partial class @Player_Actions: IInputActionCollection2, IDisposable
                     ""id"": ""6457c63f-ca69-4def-a311-1c923256fcbb"",
                     ""path"": ""<Keyboard>/2"",
                     ""interactions"": """",
-                    ""processors"": ""Scale(factor=2)"",
+                    ""processors"": ""Scale"",
                     ""groups"": """",
                     ""action"": ""Swap"",
                     ""isComposite"": false,
@@ -314,7 +314,7 @@ public partial class @Player_Actions: IInputActionCollection2, IDisposable
                     ""id"": ""6a13f9cb-19e8-412c-8ddd-0a27c122c60d"",
                     ""path"": ""<Keyboard>/3"",
                     ""interactions"": """",
-                    ""processors"": ""Scale(factor=3)"",
+                    ""processors"": ""Scale(factor=2)"",
                     ""groups"": """",
                     ""action"": ""Swap"",
                     ""isComposite"": false,

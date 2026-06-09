@@ -24,7 +24,8 @@ public class PlayerController : MonoBehaviour
     public PlayerDodgeState Dodge { get; private set; }
     public PlayerShotState Shot { get; private set; }
     public PlayerSwingState Swing { get; private set; }
-    
+    public PlayerSwapState Swap { get; private set; }
+
     void Awake()
     {
         Idle = new PlayerIdleState(this);
@@ -32,6 +33,7 @@ public class PlayerController : MonoBehaviour
         Dodge = new PlayerDodgeState(this);
         Shot = new PlayerShotState(this);
         Swing = new PlayerSwingState(this);
+        Swap = new PlayerSwapState(this);
 
         _currentState = Idle;
 

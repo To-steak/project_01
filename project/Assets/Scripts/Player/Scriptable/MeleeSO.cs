@@ -5,15 +5,16 @@ public class MeleeSO : WeaponSO<MeleeInstance>
 {
     public override MeleeInstance DerivedInstance(Transform hand)
     {
-        MeleeInstance instance = new MeleeInstance(this);
-
+        GameObject weapon = null;
         if (WeaponPrefab != null)
         {
-            GameObject weapon = Instantiate(WeaponPrefab, hand);
+            weapon = Instantiate(WeaponPrefab, hand);
             weapon.transform.localPosition = Vector3.zero;
             weapon.transform.localRotation = Quaternion.identity;
+            weapon.SetActive(false);
         }
 
+        MeleeInstance instance = new MeleeInstance(this, weapon);
         return instance;
     }
 
