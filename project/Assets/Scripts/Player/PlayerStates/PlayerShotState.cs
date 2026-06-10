@@ -32,6 +32,6 @@ public class PlayerShotState : PlayerState
 
     public override void HandleAnimationCommit()
     {
-        Weapons.Attack();
+        Weapons.Attack(Movements.MouseWorldPosition);
     }
 }

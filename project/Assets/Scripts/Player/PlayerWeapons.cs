@@ -4,7 +4,6 @@ public class PlayerWeapons : MonoBehaviour
 {
     [SerializeField] private WeaponSO[] weapons;
     [SerializeField] private Transform hand;
-    [SerializeField] private Transform muzzle;
 
     private WeaponInstance[] instances;
     private int _currentWeaponIndex;
@@ -16,7 +15,7 @@ public class PlayerWeapons : MonoBehaviour
 
         for (int i = 0; i < weapons.Length; i++)
         {
-            instances[i] = weapons[i].Instance(hand: hand);
+            instances[i] = weapons[i].Initialize(hand: hand);
         }
 
         instances[_currentWeaponIndex].WeaponPrefab.SetActive(true);
@@ -34,7 +33,7 @@ public class PlayerWeapons : MonoBehaviour
             return false;
         }
 
-        if (weapons[index] == null)
+        if (instances[index] == null)
         {
             return false;
         }
@@ -50,8 +49,8 @@ public class PlayerWeapons : MonoBehaviour
         return true;
     }
 
-    public void Attack()
+    public void Attack(Vector3 targetPosition = default)
     {
-        instances[_currentWeaponIndex].Attack(muzzle);
+        instances[_currentWeaponIndex].Attack(targetPosition);
     }
 }

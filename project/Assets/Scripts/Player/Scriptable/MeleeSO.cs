@@ -3,9 +3,10 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "MeleeSO", menuName = "Scriptable Objects/MeleeSO")]
 public class MeleeSO : WeaponSO<MeleeInstance>
 {
-    public override MeleeInstance DerivedInstance(Transform hand)
+    public override MeleeInstance DerivedInitialize(Transform hand)
     {
         GameObject weapon = null;
+
         if (WeaponPrefab != null)
         {
             weapon = Instantiate(WeaponPrefab, hand);
@@ -14,7 +15,7 @@ public class MeleeSO : WeaponSO<MeleeInstance>
             weapon.SetActive(false);
         }
 
-        MeleeInstance instance = new MeleeInstance(this, weapon);
+        MeleeInstance instance = new MeleeInstance(weapon);
         return instance;
     }
 }

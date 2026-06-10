@@ -4,6 +4,7 @@ using UnityEngine;
 public class PlayerMovements : MonoBehaviour
 {
     public bool IsGround { get; private set; }
+    public Vector3 MouseWorldPosition { get; private set; }
     public float Speed => _speed; // Only use Debug
 
     [SerializeField] private Transform model;
@@ -70,6 +71,7 @@ public class PlayerMovements : MonoBehaviour
             if (plane.Raycast(ray, out float distance))
             {
                 Vector3 hit = ray.GetPoint(distance);
+                MouseWorldPosition = hit;
                 Vector3 direction = hit - transform.position;
                 direction.y = 0f;
 
