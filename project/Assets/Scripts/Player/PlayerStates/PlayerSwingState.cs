@@ -32,6 +32,6 @@ public class PlayerSwingState : PlayerState
 
     public override void HandleAnimationCommit()
     {
-        Weapons.Attack();
+        Weapons.TryAttack();
     }
 }

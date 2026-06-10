@@ -11,9 +11,10 @@ public class ThrowingInstance : WeaponInstance
         _attackSpeed = attackSpeed;
     }
 
-    public override void Attack(Vector3 targetPosition)
+    public override bool Attack(Vector3 targetPosition)
     {
         Debug.Log("Throw!");
+        return true;
     }
 
     public override PlayerState GetAttackState(PlayerController controller)

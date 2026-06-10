@@ -29,7 +29,6 @@ public class PlayerThrowState : PlayerState
 
     public override void HandleAnimationCommit()
     {
-        // base.HandleAnimationCommit();
-        Weapons.Attack();
+        Weapons.TryAttack();
     }
 }

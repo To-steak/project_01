@@ -16,8 +16,9 @@ public class MeleeInstance : WeaponInstance
         return controller.Swing;
     }
 
-    public override void Attack(Vector3 targetPosition)
+    public override bool Attack(Vector3 targetPosition)
     {
         Debug.Log("Swing");
+        return true;
     }
 }

@@ -51,9 +51,9 @@ public class PlayerWeapons : MonoBehaviour
         return true;
     }
 
-    public void Attack(Vector3 targetPosition = default)
+    public bool TryAttack(Vector3 targetPosition = default)
     {
-        instances[_currentWeaponIndex].Attack(targetPosition);
+        return instances[_currentWeaponIndex].Attack(targetPosition);
     }
 
     public bool TryReload()

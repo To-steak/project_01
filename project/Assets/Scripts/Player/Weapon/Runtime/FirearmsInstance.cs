@@ -36,8 +36,13 @@ public class FirearmsInstance : WeaponInstance
         return controller.Shot;
     }
 
-    public override void Attack(Vector3 targetPosition)
+    public override bool Attack(Vector3 targetPosition)
     {
+        if (_currentAmmo <= 0)
+        {
+            return false;
+        }
+
         _currentAmmo--;
 
         Vector3 spawnPosition = _muzzle.transform.position;
@@ -45,6 +50,8 @@ public class FirearmsInstance : WeaponInstance
         Vector3 direction = (targetPosition - spawnPosition).normalized;
         Quaternion rotation = Quaternion.LookRotation(direction);
         GameObject bullet = Object.Instantiate(_bulletPrefab, spawnPosition, rotation);
+
+        return true;
     }
 
     public override bool TryReload()
