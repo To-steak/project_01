@@ -22,7 +22,7 @@ public class FirearmsSO : WeaponSO<FirearmsInstance>
             muzzle = weapon.GetComponentInChildren<Muzzle>();
         }
 
-        FirearmsInstance instance = new FirearmsInstance(weaponPrefab: weapon, bulletPrefab: BulletPrefab, muzzle: muzzle, currentAmmo: MaxAmmo, reserveAmmo: ReserveAmmo);
+        FirearmsInstance instance = new FirearmsInstance(weaponPrefab: weapon, bulletPrefab: BulletPrefab, muzzle: muzzle, maxAmmo: MaxAmmo, reserveAmmo: ReserveAmmo);
         return instance;
     }
 }

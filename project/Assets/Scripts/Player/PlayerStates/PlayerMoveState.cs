@@ -65,13 +65,15 @@ public class PlayerMoveState : PlayerState
             }
         }
     }
-    
+
     public override void HandleReload()
     {
-        // base.HandleReload();
         if (Movements.IsGround)
         {
-            _controller.ChangeState(_controller.Reload);
+            if (Weapons.TryReload())
+            {
+                _controller.ChangeState(_controller.Reload);
+            }
         }
     }
 }

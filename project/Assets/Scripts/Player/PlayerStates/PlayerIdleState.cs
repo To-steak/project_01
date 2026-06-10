@@ -50,7 +50,10 @@ public class PlayerIdleState : PlayerState
     {
         if (Movements.IsGround)
         {
-            _controller.ChangeState(_controller.Reload);
+            if (Weapons.TryReload())
+            {
+                _controller.ChangeState(_controller.Reload);
+            }
         }
     }
 }

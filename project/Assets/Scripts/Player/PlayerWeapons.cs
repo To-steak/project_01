@@ -53,4 +53,14 @@ public class PlayerWeapons : MonoBehaviour
     {
         instances[_currentWeaponIndex].Attack(targetPosition);
     }
+
+    public bool TryReload()
+    {
+        return instances[_currentWeaponIndex].TryReload();
+    }
+
+    public void Reload()
+    {
+        instances[_currentWeaponIndex].Reload();
+    }
 }

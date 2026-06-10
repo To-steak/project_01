@@ -14,12 +14,11 @@ public class PlayerReloadState : PlayerState
 
     public override void Exit()
     {
-        
+        Weapons.Reload();
     }
 
     public override void Tick()
     {
-        // throw new System.NotImplementedException();
         // Cancle 키 만들까 말까? 'x' 눌러서 장전 중 캔슬
     }
 
