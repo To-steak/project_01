@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public class PlayerSwapState : PlayerState
 {
     public PlayerSwapState(PlayerController playerController) : base(playerController)
@@ -6,17 +8,18 @@ public class PlayerSwapState : PlayerState
 
     public override void Enter()
     {
+        Movements.SetDirection(Vector3.zero);
         Animations.PlaySwap();
     }
 
     public override void Exit()
     {
-        
+
     }
 
     public override void Tick()
     {
-        
+
     }
 
     public override void HandleAnimationFinish()

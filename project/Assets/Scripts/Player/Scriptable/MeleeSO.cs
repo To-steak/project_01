@@ -22,4 +22,9 @@ public class MeleeSO : WeaponSO<MeleeInstance>
     {
         return controller.Swing;
     }
+
+    public override void DerivedAttack(Transform muzzle)
+    {
+        Debug.Log("Swing");
+    }
 }

@@ -228,9 +228,9 @@ AnimatorStateMachine:
   m_EntryTransitions: []
   m_StateMachineTransitions: {}
   m_StateMachineBehaviours: []
-  m_AnyStatePosition: {x: 50, y: 20, z: 0}
-  m_EntryPosition: {x: 50, y: 120, z: 0}
-  m_ExitPosition: {x: 50, y: 70, z: 0}
+  m_AnyStatePosition: {x: 50, y: 10, z: 0}
+  m_EntryPosition: {x: 50, y: 110, z: 0}
+  m_ExitPosition: {x: 50, y: 60, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
   m_DefaultState: {fileID: 7295537526394733173}
 --- !u!114 &-3276177976205535708
@@ -267,7 +267,7 @@ AnimatorStateTransition:
   m_TransitionDuration: 0.25
   m_TransitionOffset: 0
   m_ExitTime: 0.5833334
-  m_HasExitTime: 1
+  m_HasExitTime: 0
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
@@ -561,7 +561,7 @@ AnimatorStateTransition:
   m_TransitionDuration: 0.25
   m_TransitionOffset: 0
   m_ExitTime: 0.6875
-  m_HasExitTime: 1
+  m_HasExitTime: 0
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
@@ -707,4 +707,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d8adb698cd07f5409507606cb48d224, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AnimationFinished
-  finishTime: 0.95
+  finishTime: 0.5833334

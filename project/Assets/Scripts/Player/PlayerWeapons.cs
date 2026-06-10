@@ -49,4 +49,9 @@ public class PlayerWeapons : MonoBehaviour
 
         return true;
     }
+
+    public void Attack()
+    {
+        weapons[_currentWeaponIndex].Attack(muzzle);
+    }
 }

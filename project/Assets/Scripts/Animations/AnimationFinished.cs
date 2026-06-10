@@ -20,7 +20,7 @@ public class AnimationFinished : StateMachineBehaviour
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         float loop = stateInfo.normalizedTime % 1.0f;
-        
+
         if (!_isTriggered && loop >= finishTime)
         {
             _isTriggered = true;

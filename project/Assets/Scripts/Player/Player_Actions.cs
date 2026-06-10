@@ -235,7 +235,7 @@ public partial class @Player_Actions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""41f9cbe5-18b3-4867-a206-05f8dd5dbacb"",
-                    ""path"": ""<Mouse>/rightButton"",
+                    ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",

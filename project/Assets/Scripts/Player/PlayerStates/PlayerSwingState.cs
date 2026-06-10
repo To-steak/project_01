@@ -19,21 +19,20 @@ public class PlayerSwingState : PlayerState
 
     public override void Tick()
     {
-        bool attack = Inputs.Attack;
-        if (!attack)
-        {
-            _controller.ChangeState(_controller.Idle);
-            return;
-        }
+
     }
 
     public override void HandleAnimationFinish()
     {
-        Debug.Log("Finished");
+        if (!Inputs.Attack)
+        {
+            _controller.ChangeState(_controller.Idle);
+        }
     }
 
     public override void HandleAnimationCommit()
     {
-        Debug.Log("Swing");
+        // Weapons.Attack();
+        Debug.Log("Attack");
     }
 }

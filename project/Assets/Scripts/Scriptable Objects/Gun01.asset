@@ -13,12 +13,6 @@ MonoBehaviour:
   m_Name: Gun01
   m_EditorClassIdentifier: Assembly-CSharp::FirearmsSO
   WeaponPrefab: {fileID: 963521852155081116, guid: 4d7d62ad75ad8104a8c5ad74fe32ed1e, type: 3}
-  WeaponName: Gun01
-  WeaponDamage: 10
-  BulletPrefab: {fileID: 0}
-  TargetLayer:
-    serializedVersion: 2
-    m_Bits: 0
+  BulletPrefab: {fileID: 270288228789688407, guid: ceba5a01a6019fc4ab093115822e2698, type: 3}
   MaxAmmo: 3
   ReserveAmmo: 4
-  BulletSPeed: 5

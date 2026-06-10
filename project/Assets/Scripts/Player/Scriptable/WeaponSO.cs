@@ -8,6 +8,7 @@ public abstract class WeaponSO : ScriptableObject
 
     public abstract WeaponInstance Instance(Transform hand);
     public abstract PlayerState GetAttackState(PlayerController controller);
+    public abstract void Attack(Transform muzzle);
 }
 
 public abstract class WeaponSO<T> : WeaponSO where T : WeaponInstance
@@ -16,5 +17,6 @@ public abstract class WeaponSO<T> : WeaponSO where T : WeaponInstance
     public abstract T DerivedInstance(Transform hand);
     public override PlayerState GetAttackState(PlayerController controller) => GetDerivedAttackState(controller);
     public abstract PlayerState GetDerivedAttackState(PlayerController controller);
-
+    public override void Attack(Transform muzzle) => DerivedAttack(muzzle);
+    public abstract void DerivedAttack(Transform muzzle);
 }

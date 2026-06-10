@@ -3,6 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "FirearmsSO", menuName = "Scriptable Objects/FirearmsSO")]
 public class FirearmsSO : WeaponSO<FirearmsInstance>
 {
+    public GameObject BulletPrefab;
     public int MaxAmmo;
     public int ReserveAmmo;
 
@@ -16,7 +17,7 @@ public class FirearmsSO : WeaponSO<FirearmsInstance>
             weapon.transform.localRotation = Quaternion.identity;
             weapon.SetActive(false);
         }
-        
+
         FirearmsInstance instance = new FirearmsInstance(this, weapon, MaxAmmo, ReserveAmmo);
         return instance;
     }
@@ -24,5 +25,10 @@ public class FirearmsSO : WeaponSO<FirearmsInstance>
     public override PlayerState GetDerivedAttackState(PlayerController controller)
     {
         return controller.Shot;
+    }
+
+    public override void DerivedAttack(Transform muzzle)
+    {
+        GameObject bullet = Instantiate(BulletPrefab, muzzle);
     }
 }
