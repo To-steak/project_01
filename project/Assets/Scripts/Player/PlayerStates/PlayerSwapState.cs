@@ -10,6 +10,7 @@ public class PlayerSwapState : PlayerState
     {
         Movements.SetDirection(Vector3.zero);
         Animations.PlaySwap();
+        Animations.SetAttackSpeed(Weapons.AttackSpeed);
     }
 
     public override void Exit()

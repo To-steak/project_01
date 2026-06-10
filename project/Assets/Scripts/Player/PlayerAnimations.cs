@@ -5,6 +5,7 @@ public class PlayerAnimations : MonoBehaviour, IAnimationEventReceiver
     private readonly int speedHash = Animator.StringToHash("Speed");
     private readonly int dodgeHash = Animator.StringToHash("Dodge");
     private readonly int shotHash = Animator.StringToHash("Shot");
+    private readonly int attackSpeedHash = Animator.StringToHash("AttackSpeed");
     private readonly int swingHash = Animator.StringToHash("Swing");
     private readonly int swapHash = Animator.StringToHash("Swap");
     private readonly int reloadHash = Animator.StringToHash("Reload");
@@ -46,6 +47,11 @@ public class PlayerAnimations : MonoBehaviour, IAnimationEventReceiver
     public void PlayShot(bool value)
     {
         _animator.SetBool(shotHash, value);
+    }
+
+    public void SetAttackSpeed(float value)
+    {
+        _animator.SetFloat(attackSpeedHash, value);
     }
 
     public void PlaySwing(bool value)

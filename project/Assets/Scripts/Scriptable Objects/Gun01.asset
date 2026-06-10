@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FirearmsSO
   WeaponPrefab: {fileID: 963521852155081116, guid: 4d7d62ad75ad8104a8c5ad74fe32ed1e, type: 3}
   BulletPrefab: {fileID: 270288228789688407, guid: ceba5a01a6019fc4ab093115822e2698, type: 3}
+  AttackSpeed: 3
   MaxAmmo: 15
   ReserveAmmo: 30

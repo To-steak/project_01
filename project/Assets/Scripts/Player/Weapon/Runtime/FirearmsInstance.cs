@@ -2,19 +2,33 @@ using UnityEngine;
 
 public class FirearmsInstance : WeaponInstance
 {
+    public struct Config
+    {
+        public GameObject WeaponPrefab;
+        public GameObject BulletPrefab;
+        public Muzzle Muzzle;
+        public int MaxAmmo;
+        public int ReserveAmmo;
+        public float AttackSpeed;
+    }
+    
+    public override float AttackSpeed => _attackSpeed;
+
     private GameObject _bulletPrefab;
     private Muzzle _muzzle;
+    private float _attackSpeed;
     private int _maxAmmo;
     private int _currentAmmo;
     private int _reserveAmmo;
 
-    public FirearmsInstance(GameObject weaponPrefab, GameObject bulletPrefab, Muzzle muzzle, int maxAmmo, int reserveAmmo) : base(weaponPrefab)
+    public FirearmsInstance(Config config) : base(config.WeaponPrefab)
     {
-        _maxAmmo = maxAmmo;
+        _maxAmmo = config.MaxAmmo;
         _currentAmmo = _maxAmmo;
-        _reserveAmmo = reserveAmmo;
-        _muzzle = muzzle;
-        _bulletPrefab = bulletPrefab;
+        _reserveAmmo = config.ReserveAmmo;
+        _muzzle = config.Muzzle;
+        _bulletPrefab = config.BulletPrefab;
+        _attackSpeed = config.AttackSpeed;
     }
 
     public override PlayerState GetAttackState(PlayerController controller)

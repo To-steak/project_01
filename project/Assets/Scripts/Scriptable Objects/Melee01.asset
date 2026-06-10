@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: Melee01
   m_EditorClassIdentifier: Assembly-CSharp::MeleeSO
   WeaponPrefab: {fileID: 991734367545971336, guid: adaec320e1883364b980b662db2bc2e9, type: 3}
+  AttackSpeed: 1

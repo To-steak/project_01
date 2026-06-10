@@ -4,6 +4,7 @@ using UnityEngine;
 public class FirearmsSO : WeaponSO<FirearmsInstance>
 {
     public GameObject BulletPrefab;
+    public float AttackSpeed;
     public int MaxAmmo;
     public int ReserveAmmo;
 
@@ -22,7 +23,17 @@ public class FirearmsSO : WeaponSO<FirearmsInstance>
             muzzle = weapon.GetComponentInChildren<Muzzle>();
         }
 
-        FirearmsInstance instance = new FirearmsInstance(weaponPrefab: weapon, bulletPrefab: BulletPrefab, muzzle: muzzle, maxAmmo: MaxAmmo, reserveAmmo: ReserveAmmo);
+        FirearmsInstance.Config config = new FirearmsInstance.Config()
+        {
+            WeaponPrefab = weapon,
+            BulletPrefab = BulletPrefab,
+            Muzzle = muzzle,
+            MaxAmmo = MaxAmmo,
+            ReserveAmmo = ReserveAmmo,
+            AttackSpeed = AttackSpeed
+        };
+        
+        FirearmsInstance instance = new FirearmsInstance(config);
         return instance;
     }
 }

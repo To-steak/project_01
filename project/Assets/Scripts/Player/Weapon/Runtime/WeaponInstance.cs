@@ -3,6 +3,7 @@ using UnityEngine;
 public abstract class WeaponInstance
 {
     public GameObject WeaponPrefab { get; private set; }
+    public abstract float AttackSpeed { get; }
 
     public WeaponInstance(GameObject weaponPrefab)
     {

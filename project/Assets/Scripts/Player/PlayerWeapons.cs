@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class PlayerWeapons : MonoBehaviour
 {
+    public float AttackSpeed => instances[_currentWeaponIndex].AttackSpeed;
+    
     [SerializeField] private WeaponSO[] weapons;
     [SerializeField] private Transform hand;
 
