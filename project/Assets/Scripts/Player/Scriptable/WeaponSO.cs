@@ -3,6 +3,7 @@ using UnityEngine;
 public abstract class WeaponSO : ScriptableObject
 {
     public GameObject WeaponPrefab;
+    public float AttackSpeed;
 
     public abstract WeaponInstance Initialize(Transform hand);
 }

@@ -7,11 +7,11 @@ public class FirearmsInstance : WeaponInstance
         public GameObject WeaponPrefab;
         public GameObject BulletPrefab;
         public Muzzle Muzzle;
+        public float AttackSpeed;
         public int MaxAmmo;
         public int ReserveAmmo;
-        public float AttackSpeed;
     }
-    
+
     public override float AttackSpeed => _attackSpeed;
 
     private GameObject _bulletPrefab;
@@ -23,12 +23,12 @@ public class FirearmsInstance : WeaponInstance
 
     public FirearmsInstance(Config config) : base(config.WeaponPrefab)
     {
+        _bulletPrefab = config.BulletPrefab;
+        _muzzle = config.Muzzle;
+        _attackSpeed = config.AttackSpeed;
         _maxAmmo = config.MaxAmmo;
         _currentAmmo = _maxAmmo;
         _reserveAmmo = config.ReserveAmmo;
-        _muzzle = config.Muzzle;
-        _bulletPrefab = config.BulletPrefab;
-        _attackSpeed = config.AttackSpeed;
     }
 
     public override PlayerState GetAttackState(PlayerController controller)

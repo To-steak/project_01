@@ -1,9 +1,11 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "MeleeSO", menuName = "Scriptable Objects/MeleeSO")]
-public class MeleeSO : WeaponSO<MeleeInstance>
+[CreateAssetMenu(fileName = "ThrowableSO", menuName = "Scriptable Objects/ThrowableSO")]
+public class ThrowableSO : WeaponSO<ThrowingInstance>
 {
-    public override MeleeInstance DerivedInitialize(Transform hand)
+    public int ReserveGrenade;
+
+    public override ThrowingInstance DerivedInitialize(Transform hand)
     {
         GameObject weapon = null;
 
@@ -15,7 +17,7 @@ public class MeleeSO : WeaponSO<MeleeInstance>
             weapon.SetActive(false);
         }
 
-        MeleeInstance instance = new MeleeInstance(weapon, AttackSpeed);
+        ThrowingInstance instance = new ThrowingInstance(weapon, AttackSpeed);
         return instance;
     }
 }

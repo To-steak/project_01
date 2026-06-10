@@ -195,6 +195,7 @@ MonoBehaviour:
   weapons:
   - {fileID: 11400000, guid: 078afe8b921271c459673fca3cd4c531, type: 2}
   - {fileID: 11400000, guid: 907f7f48d71d84e4488a7a92a4347411, type: 2}
+  - {fileID: 11400000, guid: 56c29e28a5175854c8630b5a2c3167ae, type: 2}
   hand: {fileID: 3261898790909190969}
 --- !u!1 &3251624721256208526
 GameObject:

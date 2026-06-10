@@ -4,7 +4,6 @@ using UnityEngine;
 public class FirearmsSO : WeaponSO<FirearmsInstance>
 {
     public GameObject BulletPrefab;
-    public float AttackSpeed;
     public int MaxAmmo;
     public int ReserveAmmo;
 

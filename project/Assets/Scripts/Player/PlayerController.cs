@@ -26,6 +26,7 @@ public class PlayerController : MonoBehaviour
     public PlayerSwingState Swing { get; private set; }
     public PlayerSwapState Swap { get; private set; }
     public PlayerReloadState Reload { get; private set; }
+    public PlayerThrowState Throw { get; private set; }
 
     void Awake()
     {
@@ -36,6 +37,7 @@ public class PlayerController : MonoBehaviour
         Swing = new PlayerSwingState(this);
         Swap = new PlayerSwapState(this);
         Reload = new PlayerReloadState(this);
+        Throw = new PlayerThrowState(this);
 
         _currentState = Idle;
 
