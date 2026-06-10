@@ -45,4 +45,12 @@ public class PlayerIdleState : PlayerState
             }
         }
     }
+
+    public override void HandleReload()
+    {
+        if (Movements.IsGround)
+        {
+            _controller.ChangeState(_controller.Reload);
+        }
+    }
 }

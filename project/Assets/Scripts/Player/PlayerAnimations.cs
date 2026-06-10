@@ -7,6 +7,7 @@ public class PlayerAnimations : MonoBehaviour, IAnimationEventReceiver
     private readonly int shotHash = Animator.StringToHash("Shot");
     private readonly int swingHash = Animator.StringToHash("Swing");
     private readonly int swapHash = Animator.StringToHash("Swap");
+    private readonly int reloadHash = Animator.StringToHash("Reload");
 
     private Animator _animator;
     private PlayerEvents _playerEvents;
@@ -55,6 +56,11 @@ public class PlayerAnimations : MonoBehaviour, IAnimationEventReceiver
     public void PlaySwap()
     {
         _animator.SetTrigger(swapHash);
+    }
+
+    public void PlayReload()
+    {
+        _animator.SetTrigger(reloadHash);
     }
 
     public void NotifyAnimationFinished() => _playerEvents.RaiseOnAnimationFinish();

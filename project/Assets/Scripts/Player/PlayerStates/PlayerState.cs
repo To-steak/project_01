@@ -16,8 +16,11 @@ public abstract class PlayerState
     public abstract void Enter();
     public abstract void Tick();
     public abstract void Exit();
+    // Input
     public virtual void HandleDodge() { }
     public virtual void HandleSwap(int index) { }
+    public virtual void HandleReload() { }
+    // Animation
     public virtual void HandleAnimationFinish() { }
     public virtual void HandleAnimationCommit() { }
 }

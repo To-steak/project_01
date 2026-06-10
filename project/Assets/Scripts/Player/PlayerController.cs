@@ -25,6 +25,7 @@ public class PlayerController : MonoBehaviour
     public PlayerShotState Shot { get; private set; }
     public PlayerSwingState Swing { get; private set; }
     public PlayerSwapState Swap { get; private set; }
+    public PlayerReloadState Reload { get; private set; }
 
     void Awake()
     {
@@ -34,6 +35,7 @@ public class PlayerController : MonoBehaviour
         Shot = new PlayerShotState(this);
         Swing = new PlayerSwingState(this);
         Swap = new PlayerSwapState(this);
+        Reload = new PlayerReloadState(this);
 
         _currentState = Idle;
 
@@ -54,6 +56,8 @@ public class PlayerController : MonoBehaviour
         // Input
         Events.DodgeRequest += HandleDodgeRequest;
         Events.SwapRequest += HandleSwapRequest;
+        Events.ReloadRequest += HandleReloadRequest;
+        // Events.
         // Animation
         Events.AnimationFinishRequest += HandleAnimationFinish;
         Events.AnimationCommitRequest += HandleAnimationCommit;
@@ -64,6 +68,7 @@ public class PlayerController : MonoBehaviour
         // Input
         Events.DodgeRequest -= HandleDodgeRequest;
         Events.SwapRequest -= HandleSwapRequest;
+        Events.ReloadRequest -= HandleReloadRequest;
         // Animation
         Events.AnimationFinishRequest -= HandleAnimationFinish;
         Events.AnimationCommitRequest -= HandleAnimationCommit;
@@ -86,6 +91,7 @@ public class PlayerController : MonoBehaviour
     // Input
     private void HandleDodgeRequest() => _currentState.HandleDodge();
     private void HandleSwapRequest(int index) => _currentState.HandleSwap(index);
+    private void HandleReloadRequest() => _currentState.HandleReload();
     // Animation
     private void HandleAnimationFinish() => _currentState.HandleAnimationFinish();
     private void HandleAnimationCommit() => _currentState.HandleAnimationCommit();

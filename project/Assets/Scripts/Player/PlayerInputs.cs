@@ -29,10 +29,10 @@ public class PlayerInputs : MonoBehaviour
         _actions.Combat.Look.performed += OnLook;
         _actions.Combat.Look.canceled += OnLook;
 
-        _actions.Combat.Dodge.performed += OnDodge;
-
         _actions.Combat.Attack.performed += OnAttack;
         _actions.Combat.Attack.canceled += OnAttack;
+
+        _actions.Combat.Dodge.performed += OnDodge;
 
         _actions.Combat.Swap.performed += OnSwap;
 
@@ -50,10 +50,10 @@ public class PlayerInputs : MonoBehaviour
         _actions.Combat.Look.performed -= OnLook;
         _actions.Combat.Look.canceled -= OnLook;
 
-        _actions.Combat.Dodge.performed -= OnDodge;
-
         _actions.Combat.Attack.performed -= OnAttack;
         _actions.Combat.Attack.canceled -= OnAttack;
+
+        _actions.Combat.Dodge.performed -= OnDodge;
 
         _actions.Combat.Reload.performed -= OnReload;
 
@@ -100,9 +100,6 @@ public class PlayerInputs : MonoBehaviour
 
     private void OnReload(InputAction.CallbackContext context)
     {
-        var input = context.ReadValueAsButton();
-#if UNITY_EDITOR
-        Debug.Log($"PlayerInputs.<color=magenta>OnReload</color>: <color=orange>{input}</color>");
-#endif
+        if (context.performed) _events.RaiseOnReload();
     }
 }
