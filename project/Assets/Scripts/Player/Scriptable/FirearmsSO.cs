@@ -21,14 +21,4 @@ public class FirearmsSO : WeaponSO<FirearmsInstance>
         FirearmsInstance instance = new FirearmsInstance(this, weapon, MaxAmmo, ReserveAmmo);
         return instance;
     }
-
-    public override PlayerState GetDerivedAttackState(PlayerController controller)
-    {
-        return controller.Shot;
-    }
-
-    public override void DerivedAttack(Transform muzzle)
-    {
-        GameObject bullet = Instantiate(BulletPrefab, muzzle);
-    }
 }

@@ -24,7 +24,7 @@ public class PlayerWeapons : MonoBehaviour
 
     public PlayerState GetAttackState(PlayerController controller)
     {
-        return weapons[_currentWeaponIndex].GetAttackState(controller);
+        return instances[_currentWeaponIndex].GetAttackState(controller);
     }
 
     public bool TrySwapWeapon(int index)
@@ -52,6 +52,6 @@ public class PlayerWeapons : MonoBehaviour
 
     public void Attack()
     {
-        weapons[_currentWeaponIndex].Attack(muzzle);
+        instances[_currentWeaponIndex].Attack(muzzle);
     }
 }

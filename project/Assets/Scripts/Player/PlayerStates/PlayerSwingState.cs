@@ -32,7 +32,6 @@ public class PlayerSwingState : PlayerState
 
     public override void HandleAnimationCommit()
     {
-        // Weapons.Attack();
-        Debug.Log("Attack");
+        Weapons.Attack();
     }
 }

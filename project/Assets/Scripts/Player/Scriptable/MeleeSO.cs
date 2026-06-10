@@ -17,14 +17,4 @@ public class MeleeSO : WeaponSO<MeleeInstance>
         MeleeInstance instance = new MeleeInstance(this, weapon);
         return instance;
     }
-
-    public override PlayerState GetDerivedAttackState(PlayerController controller)
-    {
-        return controller.Swing;
-    }
-
-    public override void DerivedAttack(Transform muzzle)
-    {
-        Debug.Log("Swing");
-    }
 }
