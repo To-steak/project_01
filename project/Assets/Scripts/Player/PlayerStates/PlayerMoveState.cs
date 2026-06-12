@@ -29,9 +29,10 @@ public class PlayerMoveState : PlayerState
 
         Movements.SetDirection(input);
 
-        bool isRun = Inputs.Run;
-        Movements.SetRunning(isRun);
-        Animations.PlayMove(isRun);
+        var deltaTime = Time.deltaTime;
+        bool canRun = Inputs.Run && Health.TryConsumeRunMana(deltaTime);
+        Movements.SetRunning(canRun);
+        Animations.PlayMove(canRun);
 
         bool attack = Inputs.Attack;
         if (attack)
@@ -51,7 +52,10 @@ public class PlayerMoveState : PlayerState
 
         if (Movements.IsGround)
         {
-            _controller.ChangeState(_controller.Dodge);
+            if (Health.TryConsumeDodgeMana())
+            {
+                _controller.ChangeState(_controller.Dodge);
+            }
         }
     }
 

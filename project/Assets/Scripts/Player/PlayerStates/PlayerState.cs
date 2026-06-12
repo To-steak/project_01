@@ -7,6 +7,7 @@ public abstract class PlayerState
     protected PlayerMovements Movements => _controller.Movements;
     protected PlayerAnimations Animations => _controller.Animations;
     protected PlayerWeapons Weapons => _controller.Weapons;
+    protected PlayerHealth Health => _controller.Health;
 
     public PlayerState(PlayerController playerController)
     {

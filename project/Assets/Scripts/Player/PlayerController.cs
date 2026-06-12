@@ -6,6 +6,7 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerMovements))]
 [RequireComponent(typeof(PlayerAnimations))]
 [RequireComponent(typeof(PlayerWeapons))]
+[RequireComponent(typeof(PlayerHealth))]
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private PlayerConfig _config;
@@ -14,6 +15,7 @@ public class PlayerController : MonoBehaviour
     public PlayerMovements Movements { get; private set; }
     public PlayerAnimations Animations { get; private set; }
     public PlayerWeapons Weapons { get; private set; }
+    public PlayerHealth Health { get; private set; }
     public PlayerEvents Events { get; private set; }
 
     public PlayerState CurrentState => _currentState; // Only use Debug
@@ -45,12 +47,14 @@ public class PlayerController : MonoBehaviour
         Movements = GetComponent<PlayerMovements>();
         Animations = GetComponent<PlayerAnimations>();
         Weapons = GetComponent<PlayerWeapons>();
+        Health = GetComponent<PlayerHealth>();
         Events = new PlayerEvents();
 
         Inputs.Initialize(playerEvents: Events);
         Movements.Initialize(config: _config, playerEvents: Events);
         Animations.Initialize(playerEvents: Events);
         Weapons.Initialize();
+        Health.Initialize(config: _config);
     }
 
     void OnEnable()
@@ -59,7 +63,6 @@ public class PlayerController : MonoBehaviour
         Events.DodgeRequest += HandleDodgeRequest;
         Events.SwapRequest += HandleSwapRequest;
         Events.ReloadRequest += HandleReloadRequest;
-        // Events.
         // Animation
         Events.AnimationFinishRequest += HandleAnimationFinish;
         Events.AnimationCommitRequest += HandleAnimationCommit;
@@ -81,6 +84,7 @@ public class PlayerController : MonoBehaviour
         _currentState.Tick(); // 1. 입력을 받아서
         Movements.Tick(); // 2. 이동을 먼저 하고
         Movements.Look(Inputs.Look); // 3. 이동 완료한 좌표를 기준으로 Look 계산
+        Health.Tick();
     }
 
     public void ChangeState(PlayerState newState)

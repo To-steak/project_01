@@ -5,28 +5,39 @@ public class PlayerMovements : MonoBehaviour
 {
     public bool IsGround { get; private set; }
     public Vector3 MouseWorldPosition { get; private set; }
-    public float Speed => _speed; // Only use Debug
 
     [SerializeField] private Transform model;
 
     private CharacterController _characterController;
-    private PlayerConfig _config;
     private PlayerEvents _playerEvents;
     private Camera _mainCamera;
-    private bool _isRotationLocked;
-    private float _speed;
-    private float _verticalVelocity;
-    private const float PRESS = -2f;
+    private LayerMask _groundLayer;
     private Vector3 _direction;
+    private Vector3 _groundCheckOffset = new Vector3(0f, .6f, 0f);
+    private bool _isRotationLocked;
+    private float _currentSpeed;
+    private float _runSpeed;
+    private float _walkSpeed;
+    private float _dodgeSpeed;
+    private float _verticalVelocity;
+    private float _gravity;
+    private float _groundDistance = 0.2f;
+    private const float PRESS = -2f;
     private const float LOOK_SQRT_THRESHOLD = 0.01f;
 
     public void Initialize(PlayerConfig config, PlayerEvents playerEvents)
     {
-        _config = config;
         _playerEvents = playerEvents;
         _mainCamera = Camera.main;
         _isRotationLocked = false;
-        _speed = _config.WalkSpeed;
+        _walkSpeed = config.WalkSpeed;
+        _runSpeed = config.RunSpeed;
+        _dodgeSpeed = config.DodgeSpeed;
+        _currentSpeed = _walkSpeed;
+        _gravity = config.Gravity;
+        _groundCheckOffset = config.GroundCheckOffset;
+        _groundDistance = config.GroundDistance;
+        _groundLayer = config.GroundLayer;
 
         if (!TryGetComponent<CharacterController>(out _characterController))
         {
@@ -38,22 +49,24 @@ public class PlayerMovements : MonoBehaviour
 
     public void Tick()
     {
-        Vector3 CheckSphere = transform.position + _config.GroundCheckOffset;
-        IsGround = Physics.CheckSphere(CheckSphere, _config.GroundDistance, _config.GroundLayer);
+        var deltaTime = Time.deltaTime;
+
+        Vector3 CheckSphere = transform.position + _groundCheckOffset;
+        IsGround = Physics.CheckSphere(CheckSphere, _groundDistance, _groundLayer);
 
         if (IsGround && _verticalVelocity < 0)
         {
             _verticalVelocity = PRESS;
         }
 
-        _verticalVelocity += _config.Gravity * Time.deltaTime;
+        _verticalVelocity += _gravity * deltaTime;
 
         Vector3 direction = GetCameraDirection(_direction);
-        Vector3 move = direction * _speed;
+        Vector3 move = direction * _currentSpeed;
 
         move.y = _verticalVelocity;
 
-        _characterController.Move(move * Time.deltaTime);
+        _characterController.Move(move * deltaTime);
     }
 
     public void Look(Vector2 value)
@@ -87,11 +100,11 @@ public class PlayerMovements : MonoBehaviour
     {
         if (value)
         {
-            _speed = _config.RunSpeed;
+            _currentSpeed = _runSpeed;
         }
         else
         {
-            _speed = _config.WalkSpeed;
+            _currentSpeed = _walkSpeed;
         }
     }
 
@@ -107,7 +120,7 @@ public class PlayerMovements : MonoBehaviour
 
     public void DoDodge()
     {
-        _speed = _config.DodgeSpeed;
+        _currentSpeed = _dodgeSpeed;
         RotateFBX(GetCameraDirection(_direction));
     }
 
@@ -154,16 +167,7 @@ public class PlayerMovements : MonoBehaviour
             Gizmos.color = Color.red;
         }
 
-        Vector3 groundCheckOffset = Vector3.up * -0.6f;
-        float groundDistance = .2f;
-
-        if (_config != null)
-        {
-            groundCheckOffset = _config.GroundCheckOffset;
-            groundDistance = _config.GroundDistance;
-        }
-
-        Gizmos.DrawWireSphere(transform.position + groundCheckOffset, groundDistance);
+        Gizmos.DrawWireSphere(transform.position + _groundCheckOffset, _groundDistance);
     }
 #endif
 }

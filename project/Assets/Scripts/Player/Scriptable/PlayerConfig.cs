@@ -12,4 +12,12 @@ public class PlayerConfig : ScriptableObject
     public Vector3 GroundCheckOffset = Vector3.zero;
     public float GroundDistance = 1;
     public LayerMask GroundLayer;
+    [Header("Player Health")]
+    public float InitHealth = 100f;
+    public float InitMana = 50f;
+    public float RecoveryManaDelay = 3f;
+    public float RecoveryManaAmount = 1f;
+    public float RunCost = 1f;
+    public float DodgeCost = 5f;
+
 }

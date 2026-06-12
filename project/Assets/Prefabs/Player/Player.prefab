@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 4512089683062396174}
   - component: {fileID: 8177708744590368570}
   - component: {fileID: 6698196686503567243}
+  - component: {fileID: 2379100986878673422}
   m_Layer: 7
   m_Name: Player
   m_TagString: Untagged
@@ -197,6 +198,18 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 907f7f48d71d84e4488a7a92a4347411, type: 2}
   - {fileID: 11400000, guid: 56c29e28a5175854c8630b5a2c3167ae, type: 2}
   hand: {fileID: 3261898790909190969}
+--- !u!114 &2379100986878673422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2624744383910229389}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8ec000ae93f33d4cb53a9e6e7048987, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
 --- !u!1 &3251624721256208526
 GameObject:
   m_ObjectHideFlags: 0
