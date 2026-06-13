@@ -10,6 +10,7 @@ public class PlayerAnimations : MonoBehaviour, IAnimationEventReceiver
     private readonly int swapHash = Animator.StringToHash("Swap");
     private readonly int reloadHash = Animator.StringToHash("Reload");
     private readonly int throwHash = Animator.StringToHash("Throw");
+    private readonly int dieHash = Animator.StringToHash("Die");
 
     private Animator _animator;
     private PlayerEvents _playerEvents;
@@ -73,6 +74,11 @@ public class PlayerAnimations : MonoBehaviour, IAnimationEventReceiver
     public void PlayThrow()
     {
         _animator.SetTrigger(throwHash);
+    }
+
+    public void PlayDie(bool value)
+    {
+        _animator.SetBool(dieHash, value);
     }
 
     public void NotifyAnimationFinished() => _playerEvents.RaiseOnAnimationFinish();

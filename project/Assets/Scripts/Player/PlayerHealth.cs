@@ -7,19 +7,21 @@ public class PlayerHealth : MonoBehaviour
     public float CurrentHealth { get; private set; }
     public float CurrentMana { get; private set; }
 
+    private PlayerEvents _events;
     private float _runCost;
     private float _dodgeCost;
     private float _recoveryManaTimer;
     private float _recoveryManaDelay;
     private float _recoveryManaAmount;
 
-    public void Initialize(PlayerConfig config)
+    public void Initialize(PlayerConfig config, PlayerEvents playerEvents)
     {
         MaxHealth = config.InitHealth;
         MaxMana = config.InitMana;
         CurrentHealth = config.InitHealth;
         CurrentMana = config.InitMana;
 
+        _events = playerEvents;
         _runCost = config.RunCost;
         _dodgeCost = config.DodgeCost;
         _recoveryManaTimer = config.RecoveryManaDelay;
@@ -40,6 +42,8 @@ public class PlayerHealth : MonoBehaviour
         {
             CurrentMana += _recoveryManaAmount * deltaTime;
         }
+
+        Debug.Log($"HP: {CurrentHealth} / {MaxHealth}");
     }
 
     public bool TryConsumeDodgeMana()
@@ -66,5 +70,22 @@ public class PlayerHealth : MonoBehaviour
         }
 
         return false;
+    }
+
+    public void TakeDamage(float amount)
+    {
+        CurrentHealth = Mathf.Max(0, CurrentHealth - amount);
+
+        if (CurrentHealth <= 0)
+        {
+            Debug.Log("Character is dead");
+            _events.RaiseOnDie();
+        }
+    }
+
+    [ContextMenu("Test Take Damage")]
+    public void TestTakeDamage()
+    {
+        TakeDamage(50);
     }
 }

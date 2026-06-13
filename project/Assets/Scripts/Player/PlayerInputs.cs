@@ -11,60 +11,63 @@ public class PlayerInputs : MonoBehaviour
     private Player_Actions _actions;
     private PlayerEvents _events;
 
-    void Awake()
-    {
-        _actions = new Player_Actions();
-    }
-
-    void OnEnable()
-    {
-        _actions.Combat.Enable();
-
-        _actions.Combat.Move.performed += OnMove;
-        _actions.Combat.Move.canceled += OnMove;
-
-        _actions.Combat.Run.performed += OnRun;
-        _actions.Combat.Run.canceled += OnRun;
-
-        _actions.Combat.Look.performed += OnLook;
-        _actions.Combat.Look.canceled += OnLook;
-
-        _actions.Combat.Attack.performed += OnAttack;
-        _actions.Combat.Attack.canceled += OnAttack;
-
-        _actions.Combat.Dodge.performed += OnDodge;
-
-        _actions.Combat.Swap.performed += OnSwap;
-
-        _actions.Combat.Reload.performed += OnReload;
-    }
-
-    void OnDisable()
-    {
-        _actions.Combat.Move.performed -= OnMove;
-        _actions.Combat.Move.canceled -= OnMove;
-
-        _actions.Combat.Run.performed -= OnRun;
-        _actions.Combat.Run.canceled -= OnRun;
-
-        _actions.Combat.Look.performed -= OnLook;
-        _actions.Combat.Look.canceled -= OnLook;
-
-        _actions.Combat.Attack.performed -= OnAttack;
-        _actions.Combat.Attack.canceled -= OnAttack;
-
-        _actions.Combat.Dodge.performed -= OnDodge;
-
-        _actions.Combat.Reload.performed -= OnReload;
-
-        _actions.Combat.Swap.performed -= OnSwap;
-
-        _actions.Combat.Disable();
-    }
-
     public void Initialize(PlayerEvents playerEvents)
     {
         _events = playerEvents;
+        _actions = new Player_Actions();
+    }
+
+    public void SetInputSystemEnable(bool value)
+    {
+        if (value)
+        {
+            _actions.Combat.Enable();
+
+            _actions.Combat.Move.performed += OnMove;
+            _actions.Combat.Move.canceled += OnMove;
+
+            _actions.Combat.Run.performed += OnRun;
+            _actions.Combat.Run.canceled += OnRun;
+
+            _actions.Combat.Look.performed += OnLook;
+            _actions.Combat.Look.canceled += OnLook;
+
+            _actions.Combat.Attack.performed += OnAttack;
+            _actions.Combat.Attack.canceled += OnAttack;
+
+            _actions.Combat.Dodge.performed += OnDodge;
+
+            _actions.Combat.Swap.performed += OnSwap;
+
+            _actions.Combat.Reload.performed += OnReload;
+        }
+        else
+        {
+            _actions.Combat.Move.performed -= OnMove;
+            _actions.Combat.Move.canceled -= OnMove;
+
+            _actions.Combat.Run.performed -= OnRun;
+            _actions.Combat.Run.canceled -= OnRun;
+
+            _actions.Combat.Look.performed -= OnLook;
+            _actions.Combat.Look.canceled -= OnLook;
+
+            _actions.Combat.Attack.performed -= OnAttack;
+            _actions.Combat.Attack.canceled -= OnAttack;
+
+            _actions.Combat.Dodge.performed -= OnDodge;
+
+            _actions.Combat.Reload.performed -= OnReload;
+
+            _actions.Combat.Swap.performed -= OnSwap;
+
+            _actions.Combat.Disable();
+
+            Move = Vector3.zero;
+            Look = Vector2.zero;
+            Attack = false;
+            Run = false;
+        }
     }
 
     private void OnMove(InputAction.CallbackContext context)

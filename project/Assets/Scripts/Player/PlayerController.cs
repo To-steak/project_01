@@ -29,6 +29,7 @@ public class PlayerController : MonoBehaviour
     public PlayerSwapState Swap { get; private set; }
     public PlayerReloadState Reload { get; private set; }
     public PlayerThrowState Throw { get; private set; }
+    public PlayerDieState Die { get; private set; }
 
     void Awake()
     {
@@ -40,6 +41,7 @@ public class PlayerController : MonoBehaviour
         Swap = new PlayerSwapState(this);
         Reload = new PlayerReloadState(this);
         Throw = new PlayerThrowState(this);
+        Die = new PlayerDieState(this);
 
         _currentState = Idle;
 
@@ -54,7 +56,9 @@ public class PlayerController : MonoBehaviour
         Movements.Initialize(config: _config, playerEvents: Events);
         Animations.Initialize(playerEvents: Events);
         Weapons.Initialize();
-        Health.Initialize(config: _config);
+        Health.Initialize(config: _config, playerEvents: Events);
+
+        Inputs.SetInputSystemEnable(true);
     }
 
     void OnEnable()
@@ -66,6 +70,8 @@ public class PlayerController : MonoBehaviour
         // Animation
         Events.AnimationFinishRequest += HandleAnimationFinish;
         Events.AnimationCommitRequest += HandleAnimationCommit;
+        // Game System
+        Events.DieRequest += HandleDieRequest;
     }
 
     void OnDisable()
@@ -77,6 +83,8 @@ public class PlayerController : MonoBehaviour
         // Animation
         Events.AnimationFinishRequest -= HandleAnimationFinish;
         Events.AnimationCommitRequest -= HandleAnimationCommit;
+        // Game System
+        Events.DieRequest -= HandleDieRequest;
     }
 
     void Update()
@@ -101,4 +109,6 @@ public class PlayerController : MonoBehaviour
     // Animation
     private void HandleAnimationFinish() => _currentState.HandleAnimationFinish();
     private void HandleAnimationCommit() => _currentState.HandleAnimationCommit();
+    // Game System
+    private void HandleDieRequest() => ChangeState(Die);
 }
