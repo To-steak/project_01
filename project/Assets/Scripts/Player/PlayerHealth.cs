@@ -42,8 +42,6 @@ public class PlayerHealth : MonoBehaviour
         {
             CurrentMana += _recoveryManaAmount * deltaTime;
         }
-
-        Debug.Log($"HP: {CurrentHealth} / {MaxHealth}");
     }
 
     public bool TryConsumeDodgeMana()
