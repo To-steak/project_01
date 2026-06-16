@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(PlayerInputs))]
@@ -45,12 +43,12 @@ public class PlayerController : MonoBehaviour
 
         _currentState = Idle;
 
+        Events = new PlayerEvents();
         Inputs = GetComponent<PlayerInputs>();
         Movements = GetComponent<PlayerMovements>();
         Animations = GetComponent<PlayerAnimations>();
         Weapons = GetComponent<PlayerWeapons>();
         Health = GetComponent<PlayerHealth>();
-        Events = new PlayerEvents();
 
         Inputs.Initialize(playerEvents: Events);
         Movements.Initialize(config: _config, playerEvents: Events);
