@@ -18,4 +18,6 @@ public class EnemyConfig : ScriptableObject
     public float WalkAnimSpeed;
     public float RunAnimSpeed;
     public float AttackSpeed;
+    [Header("Enemy Health")]
+    public float InitHealth;
 }

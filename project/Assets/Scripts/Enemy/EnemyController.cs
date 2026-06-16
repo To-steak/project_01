@@ -36,7 +36,7 @@ public class EnemyController : MonoBehaviour
 
         Agent.Initialize(config);
         Animations.Initialize(events: Events, config: config);
-        Health.Initialize();
+        Health.Initialize(Events, config);
 
         Agent.DrawGizmos(config.MaxRadius, config.AttackRange); // Only Debug
     }
@@ -46,6 +46,8 @@ public class EnemyController : MonoBehaviour
         // Animation
         Events.AnimationFinishRequest += HandleAnimationFinish;
         Events.AnimationCommitRequest += HandleAnimationCommit;
+        // Game System
+        Events.DieRequest += HandleDieRequest;
     }
 
     void OnDisable()
@@ -53,6 +55,8 @@ public class EnemyController : MonoBehaviour
         // Animation
         Events.AnimationFinishRequest -= HandleAnimationFinish;
         Events.AnimationCommitRequest -= HandleAnimationCommit;
+        // Game System
+        Events.DieRequest -= HandleDieRequest;
     }
 
     void Update()

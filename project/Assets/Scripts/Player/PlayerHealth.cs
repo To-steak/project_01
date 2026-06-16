@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerHealth : MonoBehaviour
+public class PlayerHealth : MonoBehaviour, IHealthPoint
 {
     public float MaxHealth { get; private set; }
     public float MaxMana { get; private set; }
@@ -60,7 +60,7 @@ public class PlayerHealth : MonoBehaviour
     {
         float reqMana = _runCost * deltaTime;
 
-        if(CurrentMana >= reqMana)
+        if (CurrentMana >= reqMana)
         {
             CurrentMana -= reqMana;
             _recoveryManaTimer = 0f;
