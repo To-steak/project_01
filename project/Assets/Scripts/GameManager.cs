@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    [SerializeField] private GameObject player;
+    [SerializeField] private GameObject enemy;
+    [SerializeField] private CinemachineCamera cinemachine;
+    
     public TMP_Text CurrentState;
 
-    [SerializeField] private GameObject player;
-    [SerializeField] private CinemachineCamera cinemachine;
-
-    private PlayerController _controller;
+    private PlayerController _playerController;
+    private EnemyController _enemyController;
 
     void Awake()
     {
@@ -18,13 +20,14 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        _controller = Instantiate(player, Vector3.up, Quaternion.identity).GetComponent<PlayerController>();
+        _playerController = Instantiate(player, Vector3.up, Quaternion.identity).GetComponent<PlayerController>();
+        _enemyController = Instantiate(enemy, new Vector3(5, 0, 5), Quaternion.identity).GetComponent<EnemyController>();
 
-        cinemachine.Follow = _controller.gameObject.transform;
+        cinemachine.Follow = _playerController.gameObject.transform;
     }
 
     void Update()
     {
-        CurrentState.text = $"Current State: {_controller.CurrentState}";
+        CurrentState.text = $"Current State: {_enemyController.CurrentState}";
     }
 }
