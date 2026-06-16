@@ -61,7 +61,6 @@ public class EnemyAgent : MonoBehaviour
     public void Stop()
     {
         _agent.velocity = Vector3.zero;
-        _agent.ResetPath();
     }
 
 #if UNITY_EDITOR
