@@ -1,14 +1,7 @@
 using System;
 
-public class PlayerEvents
+public class EnemyEvents
 {
-    // Input
-    public event Action DodgeRequest;
-    public event Action<int> SwapRequest;
-    public event Action ReloadRequest;
-    public void RaiseOnDodge() => DodgeRequest?.Invoke();
-    public void RaiseOnSwap(int index) => SwapRequest?.Invoke(index);
-    public void RaiseOnReload() => ReloadRequest?.Invoke();
     // Animation
     public event Action AnimationFinishRequest;
     public event Action AnimationCommitRequest;

@@ -4,20 +4,20 @@ using UnityEngine;
 public class PlayerConfig : ScriptableObject
 {
     [Header("Player Movements")]
-    public float WalkSpeed = 5f;
-    public float RunSpeed = 8f;
-    public float DodgeSpeed = 15f;
-    public float JumpForce = 10f;
-    public float Gravity = -9.81f;
+    public float WalkSpeed;
+    public float RunSpeed;
+    public float DodgeSpeed;
+    public float JumpForce;
+    public float Gravity;
     public Vector3 GroundCheckOffset = Vector3.zero;
-    public float GroundDistance = 1;
+    public float GroundDistance;
     public LayerMask GroundLayer;
     [Header("Player Health")]
-    public float InitHealth = 100f;
-    public float InitMana = 50f;
-    public float RecoveryManaDelay = 3f;
-    public float RecoveryManaAmount = 1f;
-    public float RunCost = 1f;
-    public float DodgeCost = 5f;
+    public float InitHealth;
+    public float InitMana;
+    public float RecoveryManaDelay;
+    public float RecoveryManaAmount;
+    public float RunCost;
+    public float DodgeCost;
 
 }
