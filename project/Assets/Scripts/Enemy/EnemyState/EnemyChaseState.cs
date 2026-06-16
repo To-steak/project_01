@@ -34,6 +34,7 @@ public class EnemyChaseState : EnemyState
     public override void Tick()
     {
         Transform detected = Agent.DetectPlayer(_controller.transform.position, _radius, _playerLayer);
+        // 감지 사거리를 벗어났을 때
         if (detected == null)
         {
             Agent.Stop();
@@ -44,15 +45,18 @@ public class EnemyChaseState : EnemyState
         var deltaTime = Time.deltaTime;
         _timer += deltaTime;
 
+        // 공격 사거리 내에 Player가 존재할 때
         if (Agent.TryReachedTarget(detected.position, _controller.transform.position))
         {
-            if (_timer >= _attackInterval)
+            // 일단 멈춘다.
+            Agent.Stop();
+
+            if (_timer >= _attackInterval) // 공격 쿨타임이 찼다면
             {
                 _timer = 0f;
-                Agent.Stop();
                 _controller.ChangeState(_controller.Attack);
             }
-            else
+            else // 공격 쿨타임이 안 찼다면
             {
                 Animations.PlayIdle();
 
@@ -65,7 +69,7 @@ public class EnemyChaseState : EnemyState
                 }
             }
         }
-        else
+        else // 공격 사거리를 벗어났을 때
         {
             Animations.PlayRun(_runAnimSpeed);
             Agent.MoveTo(detected.position, _runSpeed);
