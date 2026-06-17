@@ -8,6 +8,7 @@ public class EnemyChaseState : EnemyState
     private float _runSpeed;
     private float _runAnimSpeed;
     private float _radius;
+    private float _absRadius;
     private float _rotationSpeed;
     private float _timer;
     private const float DIRECTION_SQR_THRESHOLD = 0.001f;
@@ -19,7 +20,8 @@ public class EnemyChaseState : EnemyState
         _attackInterval = config.AttackInterval;
         _runSpeed = config.RunSpeed;
         _runAnimSpeed = config.RunAnimSpeed;
-        _radius = config.MaxRadius;
+        _radius = config.MaxDetectRadius;
+        _absRadius = config.AbsoluteDetectRadius;
         _rotationSpeed = config.RotationSpeed;
     }
 
@@ -35,7 +37,7 @@ public class EnemyChaseState : EnemyState
 
     public override void Tick()
     {
-        Transform detected = Agent.DetectPlayer(_controller.transform.position, _radius, _playerLayer, _obstacleLayer);
+        Transform detected = Agent.DetectPlayer(_controller.transform.position, _radius, _absRadius, _playerLayer, _obstacleLayer);
         // 감지 사거리를 벗어났을 때
         if (detected == null)
         {

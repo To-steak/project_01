@@ -10,6 +10,7 @@ public class EnemyAgent : MonoBehaviour
     private const int MAX_PLAYER = 4;
     private const float VELOCITY_SQR_THRESHOLD = 0.01f;
     private float _radius; // debug only
+    private float _absRadius;
     private float _attackRange; // debug only
 
     public void Initialize(EnemyConfig config)
@@ -19,15 +20,20 @@ public class EnemyAgent : MonoBehaviour
         _detected = new Collider[MAX_PLAYER];
     }
 
-    public Transform DetectPlayer(Vector3 origin, float radius, LayerMask player, LayerMask obstacle)
+    public Transform DetectPlayer(Vector3 origin, float radius, float absRadius, LayerMask player, LayerMask obstacle)
     {
         int count = Physics.OverlapSphereNonAlloc(origin, radius, _detected, player);
 
         for (int i = 0; i < count; i++)
         {
             Transform detected = _detected[i].transform;
-            Vector3 direction = (detected.position - transform.position).normalized;
-            float distance = Vector3.Distance(transform.position, detected.position);
+            Vector3 direction = (detected.position - origin).normalized;
+            float distance = Vector3.Distance(origin, detected.position);
+
+            if (distance <= absRadius)
+            {
+                return detected;
+            }
 
             if (!Physics.Raycast(origin, direction, distance, obstacle))
             {
@@ -77,9 +83,10 @@ public class EnemyAgent : MonoBehaviour
     }
 
 #if UNITY_EDITOR
-    public void DrawGizmos(float radius, float attackRange)
+    public void DrawGizmos(float radius, float absRadius, float attackRange)
     {
         _radius = radius;
+        _absRadius = absRadius;
         _attackRange = attackRange;
     }
 
@@ -91,6 +98,13 @@ public class EnemyAgent : MonoBehaviour
 
         UnityEditor.Handles.color = new Color(1f, 1f, 0f, 0.15f);
         UnityEditor.Handles.DrawSolidDisc(transform.position, Vector3.up, _radius);
+
+        // 절대 감지 사거리
+        UnityEditor.Handles.color = Color.blue;
+        UnityEditor.Handles.DrawWireDisc(transform.position, Vector3.up, _absRadius);
+
+        UnityEditor.Handles.color = new Color(0f, 0f, 1f, 0.15f);
+        UnityEditor.Handles.DrawSolidDisc(transform.position, Vector3.up, _absRadius);
 
         // 공격 사거리
         UnityEditor.Handles.color = Color.red;

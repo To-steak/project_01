@@ -23,10 +23,11 @@ MonoBehaviour:
   AttackRange: 1
   AttackInterval: 2
   NextMoveInterval: 3
-  MinRadius: 3
-  MaxRadius: 5
+  MinMoveRadius: 3
+  MaxDetectRadius: 5
+  AbsoluteDetectRadius: 3
   RotationSpeed: 3.5
   WalkAnimSpeed: 1
   RunAnimSpeed: 2
   AttackSpeed: 2
-  InitHealth: 0
+  InitHealth: 100

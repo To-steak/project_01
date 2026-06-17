@@ -40,7 +40,7 @@ public class EnemyMovements : MonoBehaviour
         _playerLayer = config.PlayerLayer;
         _obstacleLayer = config.ObstacleLayer;
         _interval = config.NextMoveInterval;
-        _radius = config.MaxRadius;
+        _radius = config.MaxDetectRadius;
         _timer = 0;
     }
 

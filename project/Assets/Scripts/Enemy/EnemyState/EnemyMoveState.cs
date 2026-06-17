@@ -8,6 +8,7 @@ public class EnemyMoveState : EnemyState
     private float _walkAnimSpeed;
     private float _minRadius;
     private float _maxRadius;
+    private float _absRadius;
     private float _interval;
     private float _timer;
 
@@ -17,8 +18,9 @@ public class EnemyMoveState : EnemyState
         _obstacleLayer = config.ObstacleLayer;
         _walkSpeed = config.WalkSpeed;
         _walkAnimSpeed = config.WalkAnimSpeed;
-        _minRadius = config.MinRadius;
-        _maxRadius = config.MaxRadius;
+        _minRadius = config.MinMoveRadius;
+        _maxRadius = config.MaxDetectRadius;
+        _absRadius = config.AbsoluteDetectRadius;
         _interval = config.NextMoveInterval;
         _timer = 0;
     }
@@ -37,7 +39,7 @@ public class EnemyMoveState : EnemyState
 
     public override void Tick()
     {
-        Transform detected = Agent.DetectPlayer(_controller.transform.position, _maxRadius, _playerLayer, _obstacleLayer);
+        Transform detected = Agent.DetectPlayer(_controller.transform.position, _maxRadius, _absRadius, _playerLayer, _obstacleLayer);
         if (detected != null)
         {
             _controller.ChangeState(_controller.Chase);

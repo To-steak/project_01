@@ -38,7 +38,7 @@ public class EnemyController : MonoBehaviour
         Animations.Initialize(events: Events, config: config);
         Health.Initialize(Events, config);
 
-        Agent.DrawGizmos(config.MaxRadius, config.AttackRange); // Only Debug
+        Agent.DrawGizmos(config.MaxDetectRadius, config.AbsoluteDetectRadius, config.AttackRange); // Only Debug
     }
 
     void OnEnable()
