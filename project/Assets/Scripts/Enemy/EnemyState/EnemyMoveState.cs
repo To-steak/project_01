@@ -3,6 +3,7 @@ using UnityEngine;
 public class EnemyMoveState : EnemyState
 {
     private LayerMask _playerLayer;
+    private LayerMask _obstacleLayer;
     private float _walkSpeed;
     private float _walkAnimSpeed;
     private float _minRadius;
@@ -13,6 +14,7 @@ public class EnemyMoveState : EnemyState
     public EnemyMoveState(EnemyController controller, EnemyConfig config) : base(controller)
     {
         _playerLayer = config.PlayerLayer;
+        _obstacleLayer = config.ObstacleLayer;
         _walkSpeed = config.WalkSpeed;
         _walkAnimSpeed = config.WalkAnimSpeed;
         _minRadius = config.MinRadius;
@@ -24,7 +26,7 @@ public class EnemyMoveState : EnemyState
     public override void Enter()
     {
         _timer = 0;
-        Agent.MoveTo(_controller.transform.position, _walkSpeed);
+        Agent.Stop();
         Animations.PlayIdle();
     }
 
@@ -35,7 +37,7 @@ public class EnemyMoveState : EnemyState
 
     public override void Tick()
     {
-        Transform detected = Agent.DetectPlayer(_controller.transform.position, _maxRadius, _playerLayer);
+        Transform detected = Agent.DetectPlayer(_controller.transform.position, _maxRadius, _playerLayer, _obstacleLayer);
         if (detected != null)
         {
             _controller.ChangeState(_controller.Chase);

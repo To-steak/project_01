@@ -19,11 +19,23 @@ public class EnemyAgent : MonoBehaviour
         _detected = new Collider[MAX_PLAYER];
     }
 
-    public Transform DetectPlayer(Vector3 origin, float radius, LayerMask layer)
+    public Transform DetectPlayer(Vector3 origin, float radius, LayerMask player, LayerMask obstacle)
     {
-        int count = Physics.OverlapSphereNonAlloc(origin, radius, _detected, layer);
+        int count = Physics.OverlapSphereNonAlloc(origin, radius, _detected, player);
 
-        return count > 0 ? _detected[0].transform : null;
+        for (int i = 0; i < count; i++)
+        {
+            Transform detected = _detected[i].transform;
+            Vector3 direction = (detected.position - transform.position).normalized;
+            float distance = Vector3.Distance(transform.position, detected.position);
+
+            if (!Physics.Raycast(origin, direction, distance, obstacle))
+            {
+                return detected;
+            }
+        }
+
+        return null;
     }
 
     public bool TryGetRandomDestination(Vector3 origin, float min, float max, out Vector3 result)
@@ -61,6 +73,7 @@ public class EnemyAgent : MonoBehaviour
     public void Stop()
     {
         _agent.velocity = Vector3.zero;
+        _agent.ResetPath();
     }
 
 #if UNITY_EDITOR

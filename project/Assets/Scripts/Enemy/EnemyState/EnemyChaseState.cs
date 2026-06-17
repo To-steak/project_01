@@ -3,6 +3,7 @@ using UnityEngine;
 public class EnemyChaseState : EnemyState
 {
     private LayerMask _playerLayer;
+    private LayerMask _obstacleLayer;
     private float _attackInterval;
     private float _runSpeed;
     private float _runAnimSpeed;
@@ -14,6 +15,7 @@ public class EnemyChaseState : EnemyState
     public EnemyChaseState(EnemyController controller, EnemyConfig config) : base(controller)
     {
         _playerLayer = config.PlayerLayer;
+        _obstacleLayer = config.ObstacleLayer;
         _attackInterval = config.AttackInterval;
         _runSpeed = config.RunSpeed;
         _runAnimSpeed = config.RunAnimSpeed;
@@ -33,7 +35,7 @@ public class EnemyChaseState : EnemyState
 
     public override void Tick()
     {
-        Transform detected = Agent.DetectPlayer(_controller.transform.position, _radius, _playerLayer);
+        Transform detected = Agent.DetectPlayer(_controller.transform.position, _radius, _playerLayer, _obstacleLayer);
         // 감지 사거리를 벗어났을 때
         if (detected == null)
         {
