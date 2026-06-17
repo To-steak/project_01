@@ -3,6 +3,7 @@ using UnityEngine;
 [RequireComponent(typeof(EnemyAgent))]
 [RequireComponent(typeof(EnemyAnimations))]
 [RequireComponent(typeof(EnemyHealth))]
+[RequireComponent(typeof(EnemyWeapon))]
 public class EnemyController : MonoBehaviour
 {
     [SerializeField] private EnemyConfig config;
@@ -10,6 +11,7 @@ public class EnemyController : MonoBehaviour
     public EnemyAgent Agent { get; private set; }
     public EnemyAnimations Animations { get; private set; }
     public EnemyHealth Health { get; private set; }
+    public EnemyWeapon Weapon { get; private set; }
     public EnemyEvents Events { get; private set; }
 
     public EnemyState CurrentState => _currentState; // Debug Only
@@ -32,10 +34,12 @@ public class EnemyController : MonoBehaviour
         Agent = GetComponent<EnemyAgent>();
         Animations = GetComponent<EnemyAnimations>();
         Health = GetComponent<EnemyHealth>();
+        Weapon = GetComponent<EnemyWeapon>();
         Events = new EnemyEvents();
 
         Agent.Initialize(config);
         Animations.Initialize(events: Events, config: config);
+        Weapon.Initialize();
         Health.Initialize(Events, config);
 
         Agent.DrawGizmos(config.MaxDetectRadius, config.AbsoluteDetectRadius, config.AttackRange); // Only Debug

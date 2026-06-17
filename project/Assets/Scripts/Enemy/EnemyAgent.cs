@@ -9,9 +9,6 @@ public class EnemyAgent : MonoBehaviour
     private Collider[] _detected;
     private const int MAX_PLAYER = 4;
     private const float VELOCITY_SQR_THRESHOLD = 0.01f;
-    private float _radius; // debug only
-    private float _absRadius;
-    private float _attackRange; // debug only
 
     public void Initialize(EnemyConfig config)
     {
@@ -83,6 +80,10 @@ public class EnemyAgent : MonoBehaviour
     }
 
 #if UNITY_EDITOR
+    private float _radius; // debug only
+    private float _absRadius; // debug only
+    private float _attackRange; // debug only
+
     public void DrawGizmos(float radius, float absRadius, float attackRange)
     {
         _radius = radius;

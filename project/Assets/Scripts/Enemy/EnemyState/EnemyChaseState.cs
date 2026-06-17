@@ -7,6 +7,7 @@ public class EnemyChaseState : EnemyState
     private float _attackInterval;
     private float _runSpeed;
     private float _runAnimSpeed;
+    private float _walkAnimSpeed;
     private float _radius;
     private float _absRadius;
     private float _rotationSpeed;
@@ -19,6 +20,7 @@ public class EnemyChaseState : EnemyState
         _obstacleLayer = config.ObstacleLayer;
         _attackInterval = config.AttackInterval;
         _runSpeed = config.RunSpeed;
+        _walkAnimSpeed = config.WalkAnimSpeed;
         _runAnimSpeed = config.RunAnimSpeed;
         _radius = config.MaxDetectRadius;
         _absRadius = config.AbsoluteDetectRadius;
@@ -27,7 +29,7 @@ public class EnemyChaseState : EnemyState
 
     public override void Enter()
     {
-        Animations.PlayWalk(1);
+        Animations.PlayWalk(_walkAnimSpeed);
     }
 
     public override void Exit()

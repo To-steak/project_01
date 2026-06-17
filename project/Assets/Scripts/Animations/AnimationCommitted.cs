@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class AnimationCommited : StateMachineBehaviour
+public class AnimationCommitted : StateMachineBehaviour
 {
     [Range(0, 1)] public float[] commitTimes;
 
