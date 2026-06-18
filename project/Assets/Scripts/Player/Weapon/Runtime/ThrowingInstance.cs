@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ThrowingInstance : WeaponInstance
+public class ThrowingInstance : WeaponInstance, IPlayerWeapon
 {
     public override float AttackSpeed => _attackSpeed;
 
@@ -17,7 +17,7 @@ public class ThrowingInstance : WeaponInstance
         return true;
     }
 
-    public override PlayerState GetAttackState(PlayerController controller)
+    public PlayerState GetAttackState(PlayerController controller)
     {
         return controller.Throw;
     }

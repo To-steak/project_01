@@ -1,9 +1,9 @@
 using UnityEngine;
 
-public class PlayerWeapons : MonoBehaviour
+public class PlayerWeapons : MonoBehaviour, IPlayerWeapon
 {
     public float AttackSpeed => instances[_currentWeaponIndex].AttackSpeed;
-    
+
     [SerializeField] private WeaponSO[] weapons;
     [SerializeField] private Transform hand;
 
@@ -12,10 +12,11 @@ public class PlayerWeapons : MonoBehaviour
 
     public void Initialize()
     {
-        instances = new WeaponInstance[weapons.Length];
+        var weaponCount = weapons.Length;
+        instances = new WeaponInstance[weaponCount];
         _currentWeaponIndex = 0;
 
-        for (int i = 0; i < weapons.Length; i++)
+        for (int i = 0; i < weaponCount; i++)
         {
             instances[i] = weapons[i].Initialize(hand: hand);
         }
@@ -25,7 +26,7 @@ public class PlayerWeapons : MonoBehaviour
 
     public PlayerState GetAttackState(PlayerController controller)
     {
-        return instances[_currentWeaponIndex].GetAttackState(controller);
+        return (instances[_currentWeaponIndex] as IPlayerWeapon).GetAttackState(controller);
     }
 
     public bool TrySwapWeapon(int index)

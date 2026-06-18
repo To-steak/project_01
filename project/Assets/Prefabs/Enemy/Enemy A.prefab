@@ -87,6 +87,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a548521fa8e7064088ca10a624f89d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyWeapon
+  weapon: {fileID: 11400000, guid: 59ba3a198cf1b4f448b9ae9640c6232f, type: 2}
 --- !u!114 &1136163039341527109
 MonoBehaviour:
   m_ObjectHideFlags: 0

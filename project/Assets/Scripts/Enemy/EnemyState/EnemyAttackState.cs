@@ -10,6 +10,7 @@ public class EnemyAttackState : EnemyState
     public override void Enter()
     {
         Animations.PlayAttack();
+        Weapon.TryAttack();
     }
 
     public override void Exit()

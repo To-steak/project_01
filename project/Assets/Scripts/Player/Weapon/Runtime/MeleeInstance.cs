@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class MeleeInstance : WeaponInstance
+public class MeleeInstance : WeaponInstance, IPlayerWeapon
 {
     public override float AttackSpeed => _attackSpeed;
 
@@ -11,7 +11,7 @@ public class MeleeInstance : WeaponInstance
         _attackSpeed = attackSpeed;
     }
 
-    public override PlayerState GetAttackState(PlayerController controller)
+    public PlayerState GetAttackState(PlayerController controller)
     {
         return controller.Swing;
     }
