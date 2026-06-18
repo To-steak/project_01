@@ -11,11 +11,14 @@ public class EnemyConfig : ScriptableObject
     public float AttackRange;
     public float AttackInterval;
     public float NextMoveInterval;
-    public float MinRadius;
-    public float MaxRadius;
+    public float MinMoveRadius;
+    public float MaxDetectRadius;
+    public float AbsoluteDetectRadius;
     public float RotationSpeed;
     [Header("Enemy Animation")]
     public float WalkAnimSpeed;
     public float RunAnimSpeed;
     public float AttackSpeed;
+    [Header("Enemy Health")]
+    public float InitHealth;
 }

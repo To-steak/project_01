@@ -6,6 +6,7 @@ public abstract class EnemyState
     protected EnemyAgent Agent => _controller.Agent;
     protected EnemyHealth Health => _controller.Health;
     protected EnemyAnimations Animations => _controller.Animations;
+    protected EnemyWeapon Weapon => _controller.Weapon;
 
     public EnemyState(EnemyController controller)
     {

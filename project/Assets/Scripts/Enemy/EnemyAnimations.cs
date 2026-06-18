@@ -6,7 +6,7 @@ public class EnemyAnimations : MonoBehaviour, IAnimationEventReceiver
     private readonly int attackHash = Animator.StringToHash("Attack");
     private readonly int dieHash = Animator.StringToHash("Die");
     private readonly int attackSpeedHash = Animator.StringToHash("AttackSpeed");
-    private readonly int AnimSpeedHash = Animator.StringToHash("AnimSpeed");
+    private readonly int animSpeedHash = Animator.StringToHash("AnimSpeed");
     private Animator _animator;
     private EnemyEvents _events;
     private const float IDLE = 0f;
@@ -26,13 +26,13 @@ public class EnemyAnimations : MonoBehaviour, IAnimationEventReceiver
 
     public void PlayWalk(float value)
     {
-        _animator.SetFloat(AnimSpeedHash, value);
+        _animator.SetFloat(animSpeedHash, value);
         _animator.SetFloat(speedHash, WALK);
     }
 
     public void PlayRun(float value)
     {
-        _animator.SetFloat(AnimSpeedHash, value);
+        _animator.SetFloat(animSpeedHash, value);
         _animator.SetFloat(speedHash, WALK);
     }
 

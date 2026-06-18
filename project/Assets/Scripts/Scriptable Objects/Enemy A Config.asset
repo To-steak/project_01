@@ -17,15 +17,17 @@ MonoBehaviour:
     m_Bits: 128
   ObstacleLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 1024
   WalkSpeed: 2
   RunSpeed: 4
-  AttackRange: 2
+  AttackRange: 1
   AttackInterval: 2
   NextMoveInterval: 3
-  MinRadius: 3
-  MaxRadius: 5
+  MinMoveRadius: 3
+  MaxDetectRadius: 5
+  AbsoluteDetectRadius: 3
   RotationSpeed: 3.5
   WalkAnimSpeed: 1
   RunAnimSpeed: 2
   AttackSpeed: 2
+  InitHealth: 100

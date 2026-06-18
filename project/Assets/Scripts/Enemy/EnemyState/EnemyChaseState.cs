@@ -3,10 +3,13 @@ using UnityEngine;
 public class EnemyChaseState : EnemyState
 {
     private LayerMask _playerLayer;
+    private LayerMask _obstacleLayer;
     private float _attackInterval;
     private float _runSpeed;
     private float _runAnimSpeed;
+    private float _walkAnimSpeed;
     private float _radius;
+    private float _absRadius;
     private float _rotationSpeed;
     private float _timer;
     private const float DIRECTION_SQR_THRESHOLD = 0.001f;
@@ -14,16 +17,19 @@ public class EnemyChaseState : EnemyState
     public EnemyChaseState(EnemyController controller, EnemyConfig config) : base(controller)
     {
         _playerLayer = config.PlayerLayer;
+        _obstacleLayer = config.ObstacleLayer;
         _attackInterval = config.AttackInterval;
         _runSpeed = config.RunSpeed;
+        _walkAnimSpeed = config.WalkAnimSpeed;
         _runAnimSpeed = config.RunAnimSpeed;
-        _radius = config.MaxRadius;
+        _radius = config.MaxDetectRadius;
+        _absRadius = config.AbsoluteDetectRadius;
         _rotationSpeed = config.RotationSpeed;
     }
 
     public override void Enter()
     {
-        Animations.PlayWalk(1);
+        Animations.PlayWalk(_walkAnimSpeed);
     }
 
     public override void Exit()
@@ -33,7 +39,7 @@ public class EnemyChaseState : EnemyState
 
     public override void Tick()
     {
-        Transform detected = Agent.DetectPlayer(_controller.transform.position, _radius, _playerLayer);
+        Transform detected = Agent.DetectPlayer(_controller.transform.position, _radius, _absRadius, _playerLayer, _obstacleLayer);
         // 감지 사거리를 벗어났을 때
         if (detected == null)
         {

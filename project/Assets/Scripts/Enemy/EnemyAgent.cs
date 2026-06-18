@@ -9,8 +9,6 @@ public class EnemyAgent : MonoBehaviour
     private Collider[] _detected;
     private const int MAX_PLAYER = 4;
     private const float VELOCITY_SQR_THRESHOLD = 0.01f;
-    private float _radius; // debug only
-    private float _attackRange; // debug only
 
     public void Initialize(EnemyConfig config)
     {
@@ -19,11 +17,28 @@ public class EnemyAgent : MonoBehaviour
         _detected = new Collider[MAX_PLAYER];
     }
 
-    public Transform DetectPlayer(Vector3 origin, float radius, LayerMask layer)
+    public Transform DetectPlayer(Vector3 origin, float radius, float absRadius, LayerMask player, LayerMask obstacle)
     {
-        int count = Physics.OverlapSphereNonAlloc(origin, radius, _detected, layer);
+        int count = Physics.OverlapSphereNonAlloc(origin, radius, _detected, player);
 
-        return count > 0 ? _detected[0].transform : null;
+        for (int i = 0; i < count; i++)
+        {
+            Transform detected = _detected[i].transform;
+            Vector3 direction = (detected.position - origin).normalized;
+            float distance = Vector3.Distance(origin, detected.position);
+
+            if (distance <= absRadius)
+            {
+                return detected;
+            }
+
+            if (!Physics.Raycast(origin, direction, distance, obstacle))
+            {
+                return detected;
+            }
+        }
+
+        return null;
     }
 
     public bool TryGetRandomDestination(Vector3 origin, float min, float max, out Vector3 result)
@@ -61,12 +76,18 @@ public class EnemyAgent : MonoBehaviour
     public void Stop()
     {
         _agent.velocity = Vector3.zero;
+        _agent.ResetPath();
     }
 
 #if UNITY_EDITOR
-    public void DrawGizmos(float radius, float attackRange)
+    private float _radius; // debug only
+    private float _absRadius; // debug only
+    private float _attackRange; // debug only
+
+    public void DrawGizmos(float radius, float absRadius, float attackRange)
     {
         _radius = radius;
+        _absRadius = absRadius;
         _attackRange = attackRange;
     }
 
@@ -78,6 +99,13 @@ public class EnemyAgent : MonoBehaviour
 
         UnityEditor.Handles.color = new Color(1f, 1f, 0f, 0.15f);
         UnityEditor.Handles.DrawSolidDisc(transform.position, Vector3.up, _radius);
+
+        // 절대 감지 사거리
+        UnityEditor.Handles.color = Color.blue;
+        UnityEditor.Handles.DrawWireDisc(transform.position, Vector3.up, _absRadius);
+
+        UnityEditor.Handles.color = new Color(0f, 0f, 1f, 0.15f);
+        UnityEditor.Handles.DrawSolidDisc(transform.position, Vector3.up, _absRadius);
 
         // 공격 사거리
         UnityEditor.Handles.color = Color.red;
