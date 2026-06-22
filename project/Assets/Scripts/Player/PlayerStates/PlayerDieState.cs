@@ -11,7 +11,7 @@ public class PlayerDieState : PlayerState
         Movements.SetDirection(Vector3.zero);
         Movements.SetRotationLock(true);
         Animations.PlayDie(true);
-        Inputs.SetInputSystemEnable(false);
+        Inputs.SetCombatInputEnable(false);
     }
 
     public override void Exit()

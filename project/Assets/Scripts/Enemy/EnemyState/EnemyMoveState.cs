@@ -2,26 +2,10 @@ using UnityEngine;
 
 public class EnemyMoveState : EnemyState
 {
-    private LayerMask _playerLayer;
-    private LayerMask _obstacleLayer;
-    private float _walkSpeed;
-    private float _walkAnimSpeed;
-    private float _minRadius;
-    private float _maxRadius;
-    private float _absRadius;
-    private float _interval;
     private float _timer;
 
-    public EnemyMoveState(EnemyController controller, EnemyConfig config) : base(controller)
+    public EnemyMoveState(EnemyController controller) : base(controller)
     {
-        _playerLayer = config.PlayerLayer;
-        _obstacleLayer = config.ObstacleLayer;
-        _walkSpeed = config.WalkSpeed;
-        _walkAnimSpeed = config.WalkAnimSpeed;
-        _minRadius = config.MinMoveRadius;
-        _maxRadius = config.MaxDetectRadius;
-        _absRadius = config.AbsoluteDetectRadius;
-        _interval = config.NextMoveInterval;
         _timer = 0;
     }
 
@@ -39,7 +23,7 @@ public class EnemyMoveState : EnemyState
 
     public override void Tick()
     {
-        Transform detected = Agent.DetectPlayer(_controller.transform.position, _maxRadius, _absRadius, _playerLayer, _obstacleLayer);
+        Transform detected = Agent.DetectPlayer(_controller.transform.position);
         if (detected != null)
         {
             _controller.ChangeState(_controller.Chase);
@@ -47,16 +31,16 @@ public class EnemyMoveState : EnemyState
         }
 
         var deltaTime = Time.deltaTime;
-        if (_timer < _interval)
+        if (_timer < Config.NextMoveInterval)
         {
             _timer += deltaTime;
         }
 
-        if (_timer >= _interval)
+        if (_timer >= Config.NextMoveInterval)
         {
-            if (Agent.TryGetRandomDestination(_controller.transform.position, _minRadius, _maxRadius, out Vector3 destination))
+            if (Agent.TryGetRandomDestination(_controller.transform.position, out Vector3 destination))
             {
-                Agent.MoveTo(destination, _walkSpeed);
+                Agent.MoveTo(destination, Config.WalkSpeed);
             }
 
             _timer = 0f;
@@ -64,7 +48,7 @@ public class EnemyMoveState : EnemyState
 
         if (Agent.IsMoving)
         {
-            Animations.PlayWalk(_walkAnimSpeed);
+            Animations.PlayWalk(Config.WalkAnimSpeed);
         }
         else
         {

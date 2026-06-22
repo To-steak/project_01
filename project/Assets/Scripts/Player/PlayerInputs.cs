@@ -17,7 +17,7 @@ public class PlayerInputs : MonoBehaviour
         _actions = new Player_Actions();
     }
 
-    public void SetInputSystemEnable(bool value)
+    public void SetCombatInputEnable(bool value)
     {
         if (value)
         {

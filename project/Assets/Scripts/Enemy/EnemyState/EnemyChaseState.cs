@@ -2,34 +2,16 @@ using UnityEngine;
 
 public class EnemyChaseState : EnemyState
 {
-    private LayerMask _playerLayer;
-    private LayerMask _obstacleLayer;
-    private float _attackInterval;
-    private float _runSpeed;
-    private float _runAnimSpeed;
-    private float _walkAnimSpeed;
-    private float _radius;
-    private float _absRadius;
-    private float _rotationSpeed;
     private float _timer;
     private const float DIRECTION_SQR_THRESHOLD = 0.001f;
 
-    public EnemyChaseState(EnemyController controller, EnemyConfig config) : base(controller)
+    public EnemyChaseState(EnemyController controller) : base(controller)
     {
-        _playerLayer = config.PlayerLayer;
-        _obstacleLayer = config.ObstacleLayer;
-        _attackInterval = config.AttackInterval;
-        _runSpeed = config.RunSpeed;
-        _walkAnimSpeed = config.WalkAnimSpeed;
-        _runAnimSpeed = config.RunAnimSpeed;
-        _radius = config.MaxDetectRadius;
-        _absRadius = config.AbsoluteDetectRadius;
-        _rotationSpeed = config.RotationSpeed;
     }
 
     public override void Enter()
     {
-        Animations.PlayWalk(_walkAnimSpeed);
+        Animations.PlayWalk(Config.WalkAnimSpeed);
     }
 
     public override void Exit()
@@ -39,7 +21,7 @@ public class EnemyChaseState : EnemyState
 
     public override void Tick()
     {
-        Transform detected = Agent.DetectPlayer(_controller.transform.position, _radius, _absRadius, _playerLayer, _obstacleLayer);
+        Transform detected = Agent.DetectPlayer(_controller.transform.position);
         // 감지 사거리를 벗어났을 때
         if (detected == null)
         {
@@ -57,7 +39,7 @@ public class EnemyChaseState : EnemyState
             // 일단 멈춘다.
             Agent.Stop();
 
-            if (_timer >= _attackInterval) // 공격 쿨타임이 찼다면
+            if (_timer >= Config.AttackInterval) // 공격 쿨타임이 찼다면
             {
                 _timer = 0f;
                 _controller.ChangeState(_controller.Attack);
@@ -71,14 +53,14 @@ public class EnemyChaseState : EnemyState
                 if (direction.sqrMagnitude > DIRECTION_SQR_THRESHOLD)
                 {
                     Quaternion rotation = Quaternion.LookRotation(direction);
-                    _controller.transform.rotation = Quaternion.Slerp(_controller.transform.rotation, rotation, _rotationSpeed * deltaTime);
+                    _controller.transform.rotation = Quaternion.Slerp(_controller.transform.rotation, rotation, Config.RotationSpeed * deltaTime);
                 }
             }
         }
         else // 공격 사거리를 벗어났을 때
         {
-            Animations.PlayRun(_runAnimSpeed);
-            Agent.MoveTo(detected.position, _runSpeed);
+            Animations.PlayRun(Config.RunAnimSpeed);
+            Agent.MoveTo(detected.position, Config.RunSpeed);
         }
     }
 }
