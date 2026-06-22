@@ -10,11 +10,9 @@ public class PlayerWeapons : MonoBehaviour
     private WeaponInstance[] instances;
     private PlayerState _attackState;
     private int _currentWeaponIndex;
-    private PlayerController _controller;
 
     public void Initialize(PlayerController controller)
     {
-        _controller = controller;
         var weaponCount = weapons.Length;
         instances = new WeaponInstance[weaponCount];
         _currentWeaponIndex = 0;
@@ -25,7 +23,7 @@ public class PlayerWeapons : MonoBehaviour
         }
 
         instances[_currentWeaponIndex].WeaponGameObject.SetActive(true);
-        _attackState = _controller.Swing;
+        _attackState = controller.Swing;
     }
 
     public PlayerState GetAttackState()
@@ -33,7 +31,7 @@ public class PlayerWeapons : MonoBehaviour
         return _attackState;
     }
 
-    public bool TrySwapWeapon(int index)
+    public bool TrySwapWeapon(int index, PlayerController controller)
     {
         if (index == _currentWeaponIndex)
         {
@@ -51,10 +49,10 @@ public class PlayerWeapons : MonoBehaviour
         _currentWeaponIndex = index;
         _attackState = instances[index] switch
         {
-            MeleeInstance => _controller.Swing,
-            FirearmsInstance => _controller.Shot,
-            ThrowingInstance => _controller.Throw,
-            _ => _controller.Swing
+            MeleeInstance => controller.Swing,
+            FirearmsInstance => controller.Shot,
+            ThrowingInstance => controller.Throw,
+            _ => controller.Swing
         };
 
         var after = instances[_currentWeaponIndex];

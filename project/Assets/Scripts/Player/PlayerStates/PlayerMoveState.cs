@@ -63,7 +63,7 @@ public class PlayerMoveState : PlayerState
     {
         if (Movements.IsGround)
         {
-            if (Weapons.TrySwapWeapon(index))
+            if (Weapons.TrySwapWeapon(index, _controller))
             {
                 _controller.ChangeState(_controller.Swap);
             }
