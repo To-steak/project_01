@@ -24,7 +24,7 @@ public class FirearmsSO : WeaponSO<FirearmsInstance>
 
         FirearmsInstance.Config config = new FirearmsInstance.Config()
         {
-            WeaponPrefab = weapon,
+            WeaponGameObject = weapon,
             BulletPrefab = BulletPrefab,
             Muzzle = muzzle,
             MaxAmmo = MaxAmmo,

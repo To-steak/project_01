@@ -65,6 +65,11 @@ public class EnemyController : MonoBehaviour
 
     void Update()
     {
+        Vector3 position = transform.position + (transform.forward * 1);
+        // position += transform.forward;
+
+        Weapon.MeleeArea(position); // Debug
+
         _currentState.Tick();
     }
 

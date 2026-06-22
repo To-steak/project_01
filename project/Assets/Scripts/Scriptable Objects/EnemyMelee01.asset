@@ -14,3 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MeleeSO
   WeaponPrefab: {fileID: 0}
   AttackSpeed: 1
+  Damage: 1
+  Layer:
+    serializedVersion: 2
+    m_Bits: 128
+  Half: {x: 0.5, y: 0.5, z: 0.5}

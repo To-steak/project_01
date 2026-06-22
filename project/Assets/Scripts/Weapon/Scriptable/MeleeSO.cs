@@ -3,6 +3,10 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "MeleeSO", menuName = "Scriptable Objects/MeleeSO")]
 public class MeleeSO : WeaponSO<MeleeInstance>
 {
+    public float Damage;
+    public LayerMask Layer;
+    public Vector3 Half;
+
     public override MeleeInstance DerivedInitialize(Transform hand)
     {
         GameObject weapon = null;
@@ -15,7 +19,16 @@ public class MeleeSO : WeaponSO<MeleeInstance>
             weapon.SetActive(false);
         }
 
-        MeleeInstance instance = new MeleeInstance(weapon, AttackSpeed);
+        MeleeInstance.Config config = new MeleeInstance.Config()
+        {
+            WeaponGameObject = weapon,
+            HalfExtents = Half,
+            Layer = Layer,
+            Damage = Damage,
+            AttackSpeed = AttackSpeed
+        };
+
+        MeleeInstance instance = new MeleeInstance(config);
         return instance;
     }
 }

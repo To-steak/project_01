@@ -2,16 +2,11 @@ using UnityEngine;
 
 public class ThrowingInstance : WeaponInstance, IPlayerWeapon
 {
-    public override float AttackSpeed => _attackSpeed;
-
-    private float _attackSpeed;
-
-    public ThrowingInstance(GameObject weaponPrefab, float attackSpeed) : base(weaponPrefab)
+    public ThrowingInstance(GameObject weaponPrefab, float attackSpeed) : base(weaponPrefab, attackSpeed)
     {
-        _attackSpeed = attackSpeed;
     }
 
-    public override bool Attack(Vector3 targetPosition)
+    public override bool Attack(Vector3 position, Transform transform)
     {
         Debug.Log("Throw!");
         return true;

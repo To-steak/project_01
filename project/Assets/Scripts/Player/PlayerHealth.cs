@@ -16,10 +16,10 @@ public class PlayerHealth : MonoBehaviour, IHealthPoint
 
     public void Initialize(PlayerConfig config, PlayerEvents playerEvents)
     {
-        MaxHealth = config.InitHealth;
-        MaxMana = config.InitMana;
-        CurrentHealth = config.InitHealth;
-        CurrentMana = config.InitMana;
+        MaxHealth = config.MaxHealth;
+        MaxMana = config.MaxMana;
+        CurrentHealth = config.MaxHealth;
+        CurrentMana = config.MaxMana;
 
         _events = playerEvents;
         _runCost = config.RunCost;
@@ -73,10 +73,10 @@ public class PlayerHealth : MonoBehaviour, IHealthPoint
     public void TakeDamage(float amount)
     {
         CurrentHealth = Mathf.Max(0, CurrentHealth - amount);
-
+        Debug.Log($"Player >> damage: {amount}, {CurrentHealth} / {MaxHealth}");
         if (CurrentHealth <= 0)
         {
-            Debug.Log("Character is dead");
+            Debug.Log("Player is dead");
             _events.RaiseOnDie();
         }
     }

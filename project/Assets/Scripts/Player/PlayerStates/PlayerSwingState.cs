@@ -32,6 +32,9 @@ public class PlayerSwingState : PlayerState
 
     public override void HandleAnimationCommit()
     {
-        Weapons.TryAttack();
+        if (Weapons.TryAttack(Movements.MouseWorldPosition))
+        {
+
+        }
     }
 }

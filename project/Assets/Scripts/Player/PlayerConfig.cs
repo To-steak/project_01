@@ -13,8 +13,8 @@ public class PlayerConfig : ScriptableObject
     public float GroundDistance;
     public LayerMask GroundLayer;
     [Header("Player Health")]
-    public float InitHealth;
-    public float InitMana;
+    public float MaxHealth;
+    public float MaxMana;
     public float RecoveryManaDelay;
     public float RecoveryManaAmount;
     public float RunCost;

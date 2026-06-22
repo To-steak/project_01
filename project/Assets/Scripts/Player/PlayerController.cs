@@ -87,6 +87,8 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        Weapons.MeleeArea(Movements.MouseWorldPosition); // Debug
+        
         _currentState.Tick(); // 1. 입력을 받아서
         Movements.Tick(); // 2. 이동을 먼저 하고
         Movements.Look(Inputs.Look); // 3. 이동 완료한 좌표를 기준으로 Look 계산

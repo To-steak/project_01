@@ -4,7 +4,7 @@ public class FirearmsInstance : WeaponInstance, IPlayerWeapon
 {
     public struct Config
     {
-        public GameObject WeaponPrefab;
+        public GameObject WeaponGameObject;
         public GameObject BulletPrefab;
         public Muzzle Muzzle;
         public float AttackSpeed;
@@ -12,20 +12,16 @@ public class FirearmsInstance : WeaponInstance, IPlayerWeapon
         public int ReserveAmmo;
     }
 
-    public override float AttackSpeed => _attackSpeed;
-
     private GameObject _bulletPrefab;
     private Muzzle _muzzle;
-    private float _attackSpeed;
     private int _maxAmmo;
     private int _currentAmmo;
     private int _reserveAmmo;
 
-    public FirearmsInstance(Config config) : base(config.WeaponPrefab)
+    public FirearmsInstance(Config config) : base(config.WeaponGameObject, config.AttackSpeed)
     {
         _bulletPrefab = config.BulletPrefab;
         _muzzle = config.Muzzle;
-        _attackSpeed = config.AttackSpeed;
         _maxAmmo = config.MaxAmmo;
         _currentAmmo = _maxAmmo;
         _reserveAmmo = config.ReserveAmmo;
@@ -36,7 +32,7 @@ public class FirearmsInstance : WeaponInstance, IPlayerWeapon
         return controller.Shot;
     }
 
-    public override bool Attack(Vector3 targetPosition)
+    public override bool Attack(Vector3 position, Transform transform)
     {
         if (_currentAmmo <= 0)
         {
@@ -46,15 +42,15 @@ public class FirearmsInstance : WeaponInstance, IPlayerWeapon
         _currentAmmo--;
 
         Vector3 spawnPosition = _muzzle.transform.position;
-        targetPosition.y = spawnPosition.y;
-        Vector3 direction = (targetPosition - spawnPosition).normalized;
+        position.y = spawnPosition.y;
+        Vector3 direction = (position - spawnPosition).normalized;
         Quaternion rotation = Quaternion.LookRotation(direction);
         GameObject bullet = Object.Instantiate(_bulletPrefab, spawnPosition, rotation);
 
         return true;
     }
 
-    public override bool TryReload()
+    public override bool IsReloadableWeapon()
     {
         return _currentAmmo < _maxAmmo && _reserveAmmo > 0;
     }

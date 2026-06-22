@@ -22,3 +22,9 @@ MonoBehaviour:
   GroundLayer:
     serializedVersion: 2
     m_Bits: 64
+  MaxHealth: 100
+  MaxMana: 50
+  RecoveryManaDelay: 0
+  RecoveryManaAmount: 0
+  RunCost: 0
+  DodgeCost: 0
