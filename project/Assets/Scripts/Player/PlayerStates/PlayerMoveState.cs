@@ -37,7 +37,7 @@ public class PlayerMoveState : PlayerState
         bool attack = Inputs.Attack;
         if (attack)
         {
-            var state = Weapons.GetAttackState(_controller);
+            var state = Weapons.GetAttackState();
             _controller.ChangeState(state);
             return;
         }

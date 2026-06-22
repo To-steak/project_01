@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class MeleeInstance : WeaponInstance, IPlayerWeapon
+public class MeleeInstance : WeaponInstance
 {
     public struct Config
     {
@@ -23,11 +23,6 @@ public class MeleeInstance : WeaponInstance, IPlayerWeapon
         _half = config.HalfExtents;
         _layer = config.Layer;
         _damage = config.Damage;
-    }
-
-    public PlayerState GetAttackState(PlayerController controller)
-    {
-        return controller.Swing;
     }
 
     public override bool Attack(Vector3 position, Transform transform)

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class FirearmsInstance : WeaponInstance, IPlayerWeapon
+public class FirearmsInstance : WeaponInstance
 {
     public struct Config
     {
@@ -25,11 +25,6 @@ public class FirearmsInstance : WeaponInstance, IPlayerWeapon
         _maxAmmo = config.MaxAmmo;
         _currentAmmo = _maxAmmo;
         _reserveAmmo = config.ReserveAmmo;
-    }
-
-    public PlayerState GetAttackState(PlayerController controller)
-    {
-        return controller.Shot;
     }
 
     public override bool Attack(Vector3 position, Transform transform)

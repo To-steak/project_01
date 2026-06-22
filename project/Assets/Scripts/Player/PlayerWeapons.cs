@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerWeapons : MonoBehaviour, IPlayerWeapon
+public class PlayerWeapons : MonoBehaviour
 {
     public float AttackSpeed => instances[_currentWeaponIndex].AttackSpeed;
 
@@ -8,10 +8,13 @@ public class PlayerWeapons : MonoBehaviour, IPlayerWeapon
     [SerializeField] private Transform hand;
 
     private WeaponInstance[] instances;
+    private PlayerState _attackState;
     private int _currentWeaponIndex;
+    private PlayerController _controller;
 
-    public void Initialize()
+    public void Initialize(PlayerController controller)
     {
+        _controller = controller;
         var weaponCount = weapons.Length;
         instances = new WeaponInstance[weaponCount];
         _currentWeaponIndex = 0;
@@ -22,11 +25,12 @@ public class PlayerWeapons : MonoBehaviour, IPlayerWeapon
         }
 
         instances[_currentWeaponIndex].WeaponGameObject.SetActive(true);
+        _attackState = _controller.Swing;
     }
 
-    public PlayerState GetAttackState(PlayerController controller)
+    public PlayerState GetAttackState()
     {
-        return (instances[_currentWeaponIndex] as IPlayerWeapon).GetAttackState(controller);
+        return _attackState;
     }
 
     public bool TrySwapWeapon(int index)
@@ -45,6 +49,13 @@ public class PlayerWeapons : MonoBehaviour, IPlayerWeapon
         before.WeaponGameObject.SetActive(false);
 
         _currentWeaponIndex = index;
+        _attackState = instances[index] switch
+        {
+            MeleeInstance => _controller.Swing,
+            FirearmsInstance => _controller.Shot,
+            ThrowingInstance => _controller.Throw,
+            _ => _controller.Swing
+        };
 
         var after = instances[_currentWeaponIndex];
         after.WeaponGameObject.SetActive(true);

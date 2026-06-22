@@ -8,10 +8,6 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private PlayerConfig _config;
-    public struct config
-    {
-        public float constant;
-    }
 
     public PlayerInputs Inputs { get; private set; }
     public PlayerMovements Movements { get; private set; }
@@ -57,7 +53,7 @@ public class PlayerController : MonoBehaviour
         Inputs.Initialize(Events);
         Movements.Initialize(_config);
         Animations.Initialize(Events);
-        Weapons.Initialize();
+        Weapons.Initialize(this);
         Health.Initialize(_config, Events);
 
         Inputs.SetCombatInputEnable(true);

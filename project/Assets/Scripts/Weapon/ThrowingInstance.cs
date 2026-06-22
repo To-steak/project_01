@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ThrowingInstance : WeaponInstance, IPlayerWeapon
+public class ThrowingInstance : WeaponInstance
 {
     public ThrowingInstance(GameObject weaponPrefab, float attackSpeed) : base(weaponPrefab, attackSpeed)
     {
@@ -10,10 +10,5 @@ public class ThrowingInstance : WeaponInstance, IPlayerWeapon
     {
         Debug.Log("Throw!");
         return true;
-    }
-
-    public PlayerState GetAttackState(PlayerController controller)
-    {
-        return controller.Throw;
     }
 }
