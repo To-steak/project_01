@@ -7,6 +7,7 @@ using UnityEngine;
 public class EnemyController : MonoBehaviour
 {
     [SerializeField] private EnemyConfig config;
+    public EnemyConfig Config => config;
 
     public EnemyAgent Agent { get; private set; }
     public EnemyAnimations Animations { get; private set; }
@@ -24,8 +25,8 @@ public class EnemyController : MonoBehaviour
 
     void Awake()
     {
-        Move = new EnemyMoveState(this, config);
-        Chase = new EnemyChaseState(this, config);
+        Move = new EnemyMoveState(this);
+        Chase = new EnemyChaseState(this);
         Attack = new EnemyAttackState(this);
         Die = new EnemyDieState(this);
 
@@ -65,6 +66,11 @@ public class EnemyController : MonoBehaviour
 
     void Update()
     {
+        Vector3 position = transform.position + (transform.forward * 1);
+        // position += transform.forward;
+
+        Weapon.MeleeArea(position); // Debug
+
         _currentState.Tick();
     }
 

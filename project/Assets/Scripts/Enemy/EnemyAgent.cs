@@ -7,19 +7,21 @@ public class EnemyAgent : MonoBehaviour
 
     private NavMeshAgent _agent;
     private Collider[] _detected;
+    private EnemyConfig _config;
     private const int MAX_PLAYER = 4;
     private const float VELOCITY_SQR_THRESHOLD = 0.01f;
 
     public void Initialize(EnemyConfig config)
     {
         _agent = GetComponent<NavMeshAgent>();
-        _agent.stoppingDistance = config.AttackRange;
+        _config = config;
+        _agent.stoppingDistance = _config.AttackRange;
         _detected = new Collider[MAX_PLAYER];
     }
 
-    public Transform DetectPlayer(Vector3 origin, float radius, float absRadius, LayerMask player, LayerMask obstacle)
+    public Transform DetectPlayer(Vector3 origin)
     {
-        int count = Physics.OverlapSphereNonAlloc(origin, radius, _detected, player);
+        int count = Physics.OverlapSphereNonAlloc(origin, _config.MaxDetectRadius, _detected, _config.PlayerLayer);
 
         for (int i = 0; i < count; i++)
         {
@@ -27,12 +29,12 @@ public class EnemyAgent : MonoBehaviour
             Vector3 direction = (detected.position - origin).normalized;
             float distance = Vector3.Distance(origin, detected.position);
 
-            if (distance <= absRadius)
+            if (distance <= _config.AbsoluteDetectRadius)
             {
                 return detected;
             }
 
-            if (!Physics.Raycast(origin, direction, distance, obstacle))
+            if (!Physics.Raycast(origin, direction, distance, _config.ObstacleLayer))
             {
                 return detected;
             }
@@ -41,22 +43,22 @@ public class EnemyAgent : MonoBehaviour
         return null;
     }
 
-    public bool TryGetRandomDestination(Vector3 origin, float min, float max, out Vector3 result)
+    public bool TryGetRandomDestination(Vector3 origin, out Vector3 destination)
     {
         Vector3 direction = Random.onUnitSphere;
         direction.y = 0f;
         direction.Normalize();
 
-        float distance = Random.Range(min, max);
+        float distance = Random.Range(_config.MinMoveRadius, _config.MaxDetectRadius);
         Vector3 position = origin + (direction * distance);
 
-        if (NavMesh.SamplePosition(position, out NavMeshHit hit, max, NavMesh.AllAreas))
+        if (NavMesh.SamplePosition(position, out NavMeshHit hit, _config.MaxDetectRadius, NavMesh.AllAreas))
         {
-            result = hit.position;
+            destination = hit.position;
             return true;
         }
 
-        result = Vector3.zero;
+        destination = Vector3.zero;
         return false;
     }
 

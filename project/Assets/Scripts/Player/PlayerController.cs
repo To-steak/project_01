@@ -50,13 +50,13 @@ public class PlayerController : MonoBehaviour
         Weapons = GetComponent<PlayerWeapons>();
         Health = GetComponent<PlayerHealth>();
 
-        Inputs.Initialize(playerEvents: Events);
-        Movements.Initialize(config: _config, playerEvents: Events);
-        Animations.Initialize(playerEvents: Events);
-        Weapons.Initialize();
-        Health.Initialize(config: _config, playerEvents: Events);
+        Inputs.Initialize(Events);
+        Movements.Initialize(_config);
+        Animations.Initialize(Events);
+        Weapons.Initialize(this);
+        Health.Initialize(_config, Events);
 
-        Inputs.SetInputSystemEnable(true);
+        Inputs.SetCombatInputEnable(true);
     }
 
     void OnEnable()
@@ -87,6 +87,8 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        Weapons.MeleeArea(Movements.MouseWorldPosition); // Debug
+        
         _currentState.Tick(); // 1. 입력을 받아서
         Movements.Tick(); // 2. 이동을 먼저 하고
         Movements.Look(Inputs.Look); // 3. 이동 완료한 좌표를 기준으로 Look 계산

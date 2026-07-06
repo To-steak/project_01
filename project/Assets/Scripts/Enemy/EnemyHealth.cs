@@ -18,14 +18,14 @@ public class EnemyHealth : MonoBehaviour, IHealthPoint
     public void TakeDamage(float amount)
     {
         CurrentHealth = Mathf.Max(0, CurrentHealth - amount);
-
+        Debug.Log($"Enemy >> damage: {amount}, {CurrentHealth} / {MaxHealth}");
         if (CurrentHealth <= 0)
         {
             Debug.Log("Enemy is dead");
             _events.RaiseOnDie();
         }
     }
-    
+
     [ContextMenu("Test Take Damage")]
     public void TestTakeDamage()
     {

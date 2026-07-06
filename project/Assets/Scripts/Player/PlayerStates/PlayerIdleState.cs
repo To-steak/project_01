@@ -29,7 +29,7 @@ public class PlayerIdleState : PlayerState
         bool attack = Inputs.Attack;
         if (attack)
         {
-            var state = Weapons.GetAttackState(_controller);
+            var state = Weapons.GetAttackState();
             _controller.ChangeState(state);
             return;
         }
@@ -39,7 +39,7 @@ public class PlayerIdleState : PlayerState
     {
         if (Movements.IsGround)
         {
-            if (Weapons.TrySwapWeapon(index))
+            if (Weapons.TrySwapWeapon(index, _controller))
             {
                 _controller.ChangeState(_controller.Swap);
             }
@@ -50,7 +50,7 @@ public class PlayerIdleState : PlayerState
     {
         if (Movements.IsGround)
         {
-            if (Weapons.TryReload())
+            if (Weapons.IsReloadableWeapon())
             {
                 _controller.ChangeState(_controller.Reload);
             }

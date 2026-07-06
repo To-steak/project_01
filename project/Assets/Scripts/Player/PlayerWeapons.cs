@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerWeapons : MonoBehaviour, IPlayerWeapon
+public class PlayerWeapons : MonoBehaviour
 {
     public float AttackSpeed => instances[_currentWeaponIndex].AttackSpeed;
 
@@ -8,9 +8,10 @@ public class PlayerWeapons : MonoBehaviour, IPlayerWeapon
     [SerializeField] private Transform hand;
 
     private WeaponInstance[] instances;
+    private PlayerState _attackState;
     private int _currentWeaponIndex;
 
-    public void Initialize()
+    public void Initialize(PlayerController controller)
     {
         var weaponCount = weapons.Length;
         instances = new WeaponInstance[weaponCount];
@@ -21,15 +22,16 @@ public class PlayerWeapons : MonoBehaviour, IPlayerWeapon
             instances[i] = weapons[i].Initialize(hand: hand);
         }
 
-        instances[_currentWeaponIndex].WeaponPrefab.SetActive(true);
+        instances[_currentWeaponIndex].WeaponGameObject.SetActive(true);
+        _attackState = controller.Swing;
     }
 
-    public PlayerState GetAttackState(PlayerController controller)
+    public PlayerState GetAttackState()
     {
-        return (instances[_currentWeaponIndex] as IPlayerWeapon).GetAttackState(controller);
+        return _attackState;
     }
 
-    public bool TrySwapWeapon(int index)
+    public bool TrySwapWeapon(int index, PlayerController controller)
     {
         if (index == _currentWeaponIndex)
         {
@@ -42,28 +44,58 @@ public class PlayerWeapons : MonoBehaviour, IPlayerWeapon
         }
 
         var before = instances[_currentWeaponIndex];
-        before.WeaponPrefab.SetActive(false);
+        before.WeaponGameObject.SetActive(false);
 
         _currentWeaponIndex = index;
+        _attackState = instances[index] switch
+        {
+            MeleeInstance => controller.Swing,
+            FirearmsInstance => controller.Shot,
+            ThrowingInstance => controller.Throw,
+            _ => controller.Swing
+        };
 
         var after = instances[_currentWeaponIndex];
-        after.WeaponPrefab.SetActive(true);
+        after.WeaponGameObject.SetActive(true);
 
         return true;
     }
 
-    public bool TryAttack(Vector3 targetPosition = default)
+    public bool TryAttack(Vector3 position)
     {
-        return instances[_currentWeaponIndex].Attack(targetPosition);
+        return instances[_currentWeaponIndex].Attack(position, transform);
     }
 
-    public bool TryReload()
+    public bool IsReloadableWeapon()
     {
-        return instances[_currentWeaponIndex].TryReload();
+        return instances[_currentWeaponIndex].IsReloadableWeapon();
     }
 
     public void Reload()
     {
         instances[_currentWeaponIndex].Reload();
     }
+
+#if UNITY_EDITOR
+    private Vector3 _position = Vector3.zero;
+
+    public void MeleeArea(Vector3 position)
+    {
+        _position = position;
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (instances == null || instances[_currentWeaponIndex] is not MeleeInstance meleeWeapon)
+            return;
+
+        Vector3 direction = (_position - transform.position).normalized;
+        Vector3 center = transform.position + (direction * 1.0f);
+        Quaternion rotation = Quaternion.LookRotation(direction);
+
+        Gizmos.color = Color.red;
+        Gizmos.matrix = Matrix4x4.TRS(center, rotation, Vector3.one);
+        Gizmos.DrawWireCube(Vector3.zero, meleeWeapon.HalfExtents * 2);
+    }
+#endif
 }

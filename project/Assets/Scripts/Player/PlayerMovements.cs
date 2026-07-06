@@ -9,57 +9,36 @@ public class PlayerMovements : MonoBehaviour
     [SerializeField] private Transform model;
 
     private CharacterController _characterController;
-    private PlayerEvents _playerEvents;
     private Camera _mainCamera;
-    private LayerMask _groundLayer;
+    private PlayerConfig _config;
     private Vector3 _direction;
-    private Vector3 _groundCheckOffset = new Vector3(0f, .6f, 0f);
     private bool _isRotationLocked;
     private float _currentSpeed;
-    private float _runSpeed;
-    private float _walkSpeed;
-    private float _dodgeSpeed;
     private float _verticalVelocity;
-    private float _gravity;
-    private float _groundDistance = 0.2f;
     private const float PRESS = -2f;
     private const float LOOK_SQRT_THRESHOLD = 0.01f;
 
-    public void Initialize(PlayerConfig config, PlayerEvents playerEvents)
+    public void Initialize(PlayerConfig config)
     {
-        _playerEvents = playerEvents;
         _mainCamera = Camera.main;
         _isRotationLocked = false;
-        _walkSpeed = config.WalkSpeed;
-        _runSpeed = config.RunSpeed;
-        _dodgeSpeed = config.DodgeSpeed;
-        _currentSpeed = _walkSpeed;
-        _gravity = config.Gravity;
-        _groundCheckOffset = config.GroundCheckOffset;
-        _groundDistance = config.GroundDistance;
-        _groundLayer = config.GroundLayer;
-
-        if (!TryGetComponent<CharacterController>(out _characterController))
-        {
-#if UNITY_EDITOR
-            Debug.LogError($"PlayerMovements: CharacterController Component is null");
-#endif
-        }
+        _config = config;
+        _characterController = GetComponent<CharacterController>();
     }
 
     public void Tick()
     {
         var deltaTime = Time.deltaTime;
 
-        Vector3 CheckSphere = transform.position + _groundCheckOffset;
-        IsGround = Physics.CheckSphere(CheckSphere, _groundDistance, _groundLayer);
+        Vector3 CheckSphere = transform.position + _config.GroundCheckOffset;
+        IsGround = Physics.CheckSphere(CheckSphere, _config.GroundDistance, _config.GroundLayer);
 
         if (IsGround && _verticalVelocity < 0)
         {
             _verticalVelocity = PRESS;
         }
 
-        _verticalVelocity += _gravity * deltaTime;
+        _verticalVelocity += _config.Gravity * deltaTime;
 
         Vector3 direction = GetCameraDirection(_direction);
         Vector3 move = direction * _currentSpeed;
@@ -100,11 +79,11 @@ public class PlayerMovements : MonoBehaviour
     {
         if (value)
         {
-            _currentSpeed = _runSpeed;
+            _currentSpeed = _config.RunSpeed;
         }
         else
         {
-            _currentSpeed = _walkSpeed;
+            _currentSpeed = _config.WalkSpeed;
         }
     }
 
@@ -120,7 +99,7 @@ public class PlayerMovements : MonoBehaviour
 
     public void DoDodge()
     {
-        _currentSpeed = _dodgeSpeed;
+        _currentSpeed = _config.DodgeSpeed;
         RotateFBX(GetCameraDirection(_direction));
     }
 
@@ -167,7 +146,7 @@ public class PlayerMovements : MonoBehaviour
             Gizmos.color = Color.red;
         }
 
-        Gizmos.DrawWireSphere(transform.position + _groundCheckOffset, _groundDistance);
+        Gizmos.DrawWireSphere(transform.position + _config.GroundCheckOffset, _config.GroundDistance);
     }
 #endif
 }

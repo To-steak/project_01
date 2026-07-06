@@ -6,6 +6,7 @@ public class EnemyDieState : EnemyState
 
     public override void Enter()
     {
+        Agent.Stop();
         Animations.PlayDie();
     }
 
