@@ -40,7 +40,7 @@ public class FirearmsInstance : WeaponInstance
         position.y = spawnPosition.y;
         Vector3 direction = (position - spawnPosition).normalized;
         Quaternion rotation = Quaternion.LookRotation(direction);
-        GameObject bullet = Object.Instantiate(_bulletPrefab, spawnPosition, rotation);
+        GameObject bullet = ObjectPool.Manager.Get(_bulletPrefab, spawnPosition, rotation);
 
         return true;
     }

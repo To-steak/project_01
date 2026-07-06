@@ -1,14 +1,15 @@
 using UnityEngine;
 
-public class Bullet : MonoBehaviour
+public class Bullet : MonoBehaviour, IPoolable
 {
+    private GameObject _source;
     private float _speed = 10f;
     private float _timer = 0f;
     private const float LIFE_TIME = 5f;
 
-    void Start()
+    void OnEnable()
     {
-
+        _timer = 0f;
     }
 
     void Update()
@@ -19,7 +20,12 @@ public class Bullet : MonoBehaviour
         _timer += deltaTime;
         if (_timer >= LIFE_TIME)
         {
-            gameObject.SetActive(false);
+            ObjectPool.Manager.Release(_source, gameObject);
         }
+    }
+
+    public void SetSource(GameObject source)
+    {
+        _source = source;
     }
 }
