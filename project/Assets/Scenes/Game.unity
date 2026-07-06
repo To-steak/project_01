@@ -531,7 +531,7 @@ GameObject:
   - component: {fileID: 625453127}
   - component: {fileID: 625453126}
   m_Layer: 10
-  m_Name: Cube
+  m_Name: Obstacle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1060,7 +1060,7 @@ GameObject:
   - component: {fileID: 1087386561}
   - component: {fileID: 1087386560}
   m_Layer: 0
-  m_Name: PoolManager
+  m_Name: Pool Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1079,8 +1079,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Manager::PoolManager
   bulletPools:
-  - Prefab: {fileID: 270288228789688407, guid: ceba5a01a6019fc4ab093115822e2698, type: 3}
+  - Prefab: {fileID: 6016152527585576355, guid: ceba5a01a6019fc4ab093115822e2698, type: 3}
     Count: 15
+  enemyPools: []
 --- !u!4 &1087386561
 Transform:
   m_ObjectHideFlags: 0
@@ -1432,10 +1433,10 @@ SceneRoots:
   - {fileID: 748875025}
   - {fileID: 410087041}
   - {fileID: 832575519}
-  - {fileID: 842084355}
   - {fileID: 494032618}
   - {fileID: 1611296457}
   - {fileID: 663415270}
   - {fileID: 1096327256}
   - {fileID: 625453129}
   - {fileID: 1087386561}
+  - {fileID: 842084355}
