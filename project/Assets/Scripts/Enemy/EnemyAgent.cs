@@ -15,6 +15,7 @@ public class EnemyAgent : MonoBehaviour
     {
         _agent = GetComponent<NavMeshAgent>();
         _config = config;
+        _agent.updateRotation = false;
         _agent.stoppingDistance = _config.AttackRange;
         _detected = new Collider[MAX_PLAYER];
     }

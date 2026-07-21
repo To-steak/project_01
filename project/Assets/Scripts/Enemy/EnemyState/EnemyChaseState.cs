@@ -21,6 +21,7 @@ public class EnemyChaseState : EnemyState
 
     public override void Tick()
     {
+
         Transform detected = Agent.DetectPlayer(_controller.transform.position);
         // 감지 사거리를 벗어났을 때
         if (detected == null)
@@ -32,6 +33,14 @@ public class EnemyChaseState : EnemyState
 
         var deltaTime = Time.deltaTime;
         _timer += deltaTime;
+
+        Vector3 direction = detected.position - _controller.transform.position;
+        direction.y = 0;
+        if (direction.sqrMagnitude > DIRECTION_SQR_THRESHOLD)
+        {
+            Quaternion rotation = Quaternion.LookRotation(direction);
+            _controller.transform.rotation = Quaternion.Slerp(_controller.transform.rotation, rotation, Config.RotationSpeed * deltaTime);
+        }
 
         // 공격 사거리 내에 Player가 존재할 때
         if (Agent.TryReachedTarget(detected.position, _controller.transform.position))
@@ -47,14 +56,6 @@ public class EnemyChaseState : EnemyState
             else // 공격 쿨타임이 안 찼다면
             {
                 Animations.PlayIdle();
-
-                Vector3 direction = detected.position - _controller.transform.position;
-                direction.y = 0;
-                if (direction.sqrMagnitude > DIRECTION_SQR_THRESHOLD)
-                {
-                    Quaternion rotation = Quaternion.LookRotation(direction);
-                    _controller.transform.rotation = Quaternion.Slerp(_controller.transform.rotation, rotation, Config.RotationSpeed * deltaTime);
-                }
             }
         }
         else // 공격 사거리를 벗어났을 때
