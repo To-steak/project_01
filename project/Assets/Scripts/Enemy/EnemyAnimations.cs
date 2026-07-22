@@ -17,6 +17,10 @@ public class EnemyAnimations : MonoBehaviour, IAnimationEventReceiver
         _animator = GetComponentInChildren<Animator>();
         _animator.SetFloat(attackSpeedHash, config.AttackSpeed);
         _events = events;
+
+        Debug.Log($"[Init] Set AttackSpeed={config.AttackSpeed}, " +
+          $"Readback={_animator.GetFloat(attackSpeedHash)}, " +
+          $"activeInHierarchy={gameObject.activeInHierarchy}");
     }
 
     public void PlayIdle()
@@ -48,4 +52,9 @@ public class EnemyAnimations : MonoBehaviour, IAnimationEventReceiver
 
     public void NotifyAnimationFinished() => _events.RaiseOnAnimationFinish();
     public void NotifyAnimationCommit() => _events.RaiseOnAnimationCommit();
+
+    public float GetAttackSpeedDebug()
+    {
+        return _animator.GetFloat(attackSpeedHash);
+    }
 }

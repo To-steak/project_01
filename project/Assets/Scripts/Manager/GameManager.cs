@@ -5,13 +5,10 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private GameObject player;
-    [SerializeField] private GameObject enemy;
+    [SerializeField] private GameObject enemyA;
     [SerializeField] private CinemachineCamera cinemachine;
-    
-    public TMP_Text CurrentState;
-
     private PlayerController _playerController;
-    private EnemyController _enemyController;
+    // private EnemyController _enemyController;
 
     void Awake()
     {
@@ -21,13 +18,13 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         _playerController = Instantiate(player, Vector3.up, Quaternion.identity).GetComponent<PlayerController>();
-        _enemyController = Instantiate(enemy, new Vector3(5, 0, 5), Quaternion.identity).GetComponent<EnemyController>();
-
+        GameObject enemy = ObjectPool.Manager.Get(enemyA, Vector3.zero, Quaternion.identity);
+        
         cinemachine.Follow = _playerController.gameObject.transform;
     }
 
     void Update()
     {
-        CurrentState.text = $"Current State: {_enemyController.CurrentState}";
+        
     }
 }

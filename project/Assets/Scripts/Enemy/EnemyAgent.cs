@@ -17,7 +17,8 @@ public class EnemyAgent : MonoBehaviour
         _config = config;
         _agent.updateRotation = false;
         _agent.stoppingDistance = _config.AttackRange;
-        _detected = new Collider[MAX_PLAYER];
+        _agent.Warp(transform.position);
+        _detected ??= new Collider[MAX_PLAYER];
     }
 
     public Transform DetectPlayer(Vector3 origin)

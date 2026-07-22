@@ -9,6 +9,7 @@ public class EnemyAttackState : EnemyState
 
     public override void Enter()
     {
+        Debug.Log($"[Attack.Enter] AttackSpeed readback={Animations.GetAttackSpeedDebug()}");
         Animations.PlayAttack();
     }
 

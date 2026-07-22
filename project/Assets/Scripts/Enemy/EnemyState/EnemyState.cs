@@ -7,6 +7,7 @@ public abstract class EnemyState
     protected EnemyHealth Health => _controller.Health;
     protected EnemyAnimations Animations => _controller.Animations;
     protected EnemyWeapon Weapon => _controller.Weapon;
+    protected BoxCollider Collider => _controller.Collider;
     protected EnemyConfig Config => _controller.Config;
 
     public EnemyState(EnemyController controller)
