@@ -18,13 +18,17 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         _playerController = Instantiate(player, Vector3.up, Quaternion.identity).GetComponent<PlayerController>();
-        GameObject enemy = ObjectPool.Manager.Get(enemyA, Vector3.zero, Quaternion.identity);
-        
+
         cinemachine.Follow = _playerController.gameObject.transform;
     }
 
     void Update()
     {
-        
+
+    }
+
+    public void Summon()
+    {
+        GameObject enemy = ObjectPool.Manager.Get(enemyA, Vector3.zero, Quaternion.identity);
     }
 }

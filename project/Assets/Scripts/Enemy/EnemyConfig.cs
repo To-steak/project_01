@@ -6,6 +6,7 @@ public class EnemyConfig : ScriptableObject
     [Header("Enemy Agent")]
     public LayerMask PlayerLayer;
     public LayerMask ObstacleLayer;
+    public int NavMeshSampleDistance;
     public float WalkSpeed;
     public float RunSpeed;
     public float AttackRange;

@@ -23,6 +23,6 @@ public class EnemyDieState : EnemyState
 
     public override void HandleAnimationFinish()
     {
-        // 비활성화 후 Pool 반환
+        _controller.ReturnPool();
     }
 }

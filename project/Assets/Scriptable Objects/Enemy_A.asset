@@ -18,6 +18,7 @@ MonoBehaviour:
   ObstacleLayer:
     serializedVersion: 2
     m_Bits: 1024
+  NavMeshSampleDistance: 1
   WalkSpeed: 2
   RunSpeed: 4
   AttackRange: 1

@@ -87,6 +87,7 @@ public class EnemyController : MonoBehaviour, IPoolable
         Animations.Initialize(Events, config);
         Weapon.Initialize();
         Health.Initialize(Events, config);
+        Collider.enabled = true;
 
         _currentState?.Exit();
         _currentState = Move;
@@ -95,6 +96,11 @@ public class EnemyController : MonoBehaviour, IPoolable
 #if UNITY_EDITOR
         Agent.DrawGizmos(config.MaxDetectRadius, config.AbsoluteDetectRadius, config.AttackRange);
 #endif
+    }
+
+    public void ReturnPool()
+    {
+        ObjectPool.Manager.Release(_source, gameObject);
     }
 
     // Animation

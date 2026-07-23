@@ -48,6 +48,7 @@ public class EnemyMoveState : EnemyState
 
         if (Agent.IsMoving)
         {
+            Agent.RotateAgent(Agent.Destination, Config.RotationSpeed, deltaTime);
             Animations.PlayWalk(Config.WalkAnimSpeed);
         }
         else

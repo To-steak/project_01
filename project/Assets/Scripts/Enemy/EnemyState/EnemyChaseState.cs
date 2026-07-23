@@ -3,7 +3,6 @@ using UnityEngine;
 public class EnemyChaseState : EnemyState
 {
     private float _timer;
-    private const float DIRECTION_SQR_THRESHOLD = 0.001f;
 
     public EnemyChaseState(EnemyController controller) : base(controller)
     {
@@ -32,13 +31,14 @@ public class EnemyChaseState : EnemyState
         var deltaTime = Time.deltaTime;
         _timer += deltaTime;
 
-        Vector3 direction = detected.position - _controller.transform.position;
-        direction.y = 0;
-        if (direction.sqrMagnitude > DIRECTION_SQR_THRESHOLD)
-        {
-            Quaternion rotation = Quaternion.LookRotation(direction);
-            _controller.transform.rotation = Quaternion.Slerp(_controller.transform.rotation, rotation, Config.RotationSpeed * deltaTime);
-        }
+        // Vector3 direction = detected.position - _controller.transform.position;
+        // direction.y = 0;
+        // if (direction.sqrMagnitude > DIRECTION_SQR_THRESHOLD)
+        // {
+        //     Quaternion rotation = Quaternion.LookRotation(direction);
+        //     _controller.transform.rotation = Quaternion.Slerp(_controller.transform.rotation, rotation, Config.RotationSpeed * deltaTime);
+        // }
+        Agent.RotateAgent(detected.position, Config.RotationSpeed, deltaTime);
 
         if (Agent.TryReachedTarget(detected.position, _controller.transform.position))
         {
