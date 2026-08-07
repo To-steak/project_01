@@ -42,6 +42,11 @@ public class FirearmsInstance : WeaponInstance
         Quaternion rotation = Quaternion.LookRotation(direction);
         GameObject bullet = ObjectPool.Manager.Get(_bulletPrefab, spawnPosition, rotation);
 
+        if (bullet.TryGetComponent<Bullet>(out var component))
+        {
+            component.SetShooter(transform);
+        }
+        
         return true;
     }
 

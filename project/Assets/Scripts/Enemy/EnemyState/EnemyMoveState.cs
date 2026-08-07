@@ -56,4 +56,9 @@ public class EnemyMoveState : EnemyState
             Animations.PlayIdle();
         }
     }
+
+    public override void HandleDamaged(Transform position)
+    {
+        _controller.ChangeState(_controller.Chase);
+    }
 }

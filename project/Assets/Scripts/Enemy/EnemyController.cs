@@ -4,7 +4,7 @@ using UnityEngine;
 [RequireComponent(typeof(EnemyAnimations))]
 [RequireComponent(typeof(EnemyHealth))]
 [RequireComponent(typeof(EnemyWeapon))]
-public class EnemyController : MonoBehaviour, IPoolable
+public class EnemyController : MonoBehaviour, IPoolable, INoticeReceiver
 {
     [SerializeField] private EnemyConfig config;
     public EnemyConfig Config => config;
@@ -25,6 +25,9 @@ public class EnemyController : MonoBehaviour, IPoolable
     public EnemyChaseState Chase { get; private set; }
     public EnemyAttackState Attack { get; private set; }
     public EnemyDieState Die { get; private set; }
+
+    public Transform LastTarget { get; private set; }
+    public bool HasLastTarget { get; private set; }
 
     void Awake()
     {
@@ -101,6 +104,23 @@ public class EnemyController : MonoBehaviour, IPoolable
     public void ReturnPool()
     {
         ObjectPool.Manager.Release(_source, gameObject);
+    }
+
+    public void NoticeDamage(Transform transform)
+    {
+        SetLastTarget(transform);
+        _currentState.HandleDamaged(transform);
+    }
+
+    public void SetLastTarget(Transform transform)
+    {
+        LastTarget = transform;
+        HasLastTarget = true;
+    }
+
+    public void ClearLastTarget()
+    {
+        HasLastTarget = false;
     }
 
     // Animation

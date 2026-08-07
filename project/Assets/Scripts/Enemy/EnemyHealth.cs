@@ -19,6 +19,7 @@ public class EnemyHealth : MonoBehaviour, IHealthPoint
     {
         CurrentHealth = Mathf.Max(0, CurrentHealth - amount);
         Debug.Log($"Enemy >> damage: {amount}, {CurrentHealth} / {MaxHealth}");
+
         if (CurrentHealth <= 0)
         {
             Debug.Log("Enemy is dead");

@@ -21,4 +21,6 @@ public abstract class EnemyState
     // Animation
     public virtual void HandleAnimationFinish() { }
     public virtual void HandleAnimationCommit() { }
+    // Game System
+    public virtual void HandleDamaged(Transform position) { }
 }
