@@ -5,7 +5,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private GameObject player;
-    [SerializeField] private GameObject enemyA;
+    [SerializeField] private GameObject enemy;
     [SerializeField] private CinemachineCamera cinemachine;
     private PlayerController _playerController;
     // private EnemyController _enemyController;
@@ -29,6 +29,6 @@ public class GameManager : MonoBehaviour
 
     public void Summon()
     {
-        GameObject enemy = ObjectPool.Manager.Get(enemyA, Vector3.zero, Quaternion.identity);
+        ObjectPool.Manager.Get(enemy, Vector3.zero, Quaternion.identity);
     }
 }
