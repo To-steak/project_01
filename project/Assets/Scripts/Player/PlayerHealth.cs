@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerHealth : MonoBehaviour
+public class PlayerHealth : MonoBehaviour, IHealthPoint
 {
     public float MaxHealth { get; private set; }
     public float MaxMana { get; private set; }
@@ -16,10 +16,10 @@ public class PlayerHealth : MonoBehaviour
 
     public void Initialize(PlayerConfig config, PlayerEvents playerEvents)
     {
-        MaxHealth = config.InitHealth;
-        MaxMana = config.InitMana;
-        CurrentHealth = config.InitHealth;
-        CurrentMana = config.InitMana;
+        MaxHealth = config.MaxHealth;
+        MaxMana = config.MaxMana;
+        CurrentHealth = config.MaxHealth;
+        CurrentMana = config.MaxMana;
 
         _events = playerEvents;
         _runCost = config.RunCost;
@@ -60,7 +60,7 @@ public class PlayerHealth : MonoBehaviour
     {
         float reqMana = _runCost * deltaTime;
 
-        if(CurrentMana >= reqMana)
+        if (CurrentMana >= reqMana)
         {
             CurrentMana -= reqMana;
             _recoveryManaTimer = 0f;
@@ -73,10 +73,10 @@ public class PlayerHealth : MonoBehaviour
     public void TakeDamage(float amount)
     {
         CurrentHealth = Mathf.Max(0, CurrentHealth - amount);
-
+        Debug.Log($"Player >> damage: {amount}, {CurrentHealth} / {MaxHealth}");
         if (CurrentHealth <= 0)
         {
-            Debug.Log("Character is dead");
+            Debug.Log("Player is dead");
             _events.RaiseOnDie();
         }
     }

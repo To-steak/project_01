@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 9169971464350454093}
   - component: {fileID: 6074595728440318925}
   - component: {fileID: 2383981839683558540}
+  - component: {fileID: 1430940007006985638}
   - component: {fileID: 1136163039341527109}
   - component: {fileID: 4226710516394829563}
   - component: {fileID: 6198320836470442427}
@@ -74,6 +75,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1744febcb2b26364192ccf982923208f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
+--- !u!114 &1430940007006985638
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1111754924691747839}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a548521fa8e7064088ca10a624f89d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyWeapon
+  weapon: {fileID: 11400000, guid: 59ba3a198cf1b4f448b9ae9640c6232f, type: 2}
 --- !u!114 &1136163039341527109
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public class EnemyDieState : EnemyState
 {
     public EnemyDieState(EnemyController controller) : base(controller)
@@ -6,7 +8,9 @@ public class EnemyDieState : EnemyState
 
     public override void Enter()
     {
+        Agent.Stop();
         Animations.PlayDie();
+        Collider.enabled = false;
     }
 
     public override void Exit()
@@ -15,5 +19,10 @@ public class EnemyDieState : EnemyState
 
     public override void Tick()
     {
+    }
+
+    public override void HandleAnimationFinish()
+    {
+        _controller.ReturnPool();
     }
 }

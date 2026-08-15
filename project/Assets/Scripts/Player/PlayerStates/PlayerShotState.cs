@@ -32,7 +32,7 @@ public class PlayerShotState : PlayerState
 
     public override void HandleAnimationCommit()
     {
-        if(Weapons.TryAttack(Movements.MouseWorldPosition))
+        if(Weapons.TryAttack(position: Movements.MouseWorldPosition))
         {
             // 발사 성공 SFX : 탕!
         }

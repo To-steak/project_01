@@ -24,7 +24,11 @@ public class EnemyAttackState : EnemyState
 
     public override void HandleAnimationCommit()
     {
-        // 여기서 피해를 주는 코드
+        Vector3 position = _controller.transform.position + (_controller.transform.forward * 1);
+        if (Weapon.TryAttack(position))
+        {
+            
+        }
     }
 
     public override void HandleAnimationFinish()

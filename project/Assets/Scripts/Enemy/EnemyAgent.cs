@@ -4,44 +4,72 @@ using UnityEngine.AI;
 public class EnemyAgent : MonoBehaviour
 {
     public bool IsMoving => _agent.pathPending || _agent.remainingDistance > _agent.stoppingDistance || _agent.velocity.sqrMagnitude > VELOCITY_SQR_THRESHOLD;
+    public Vector3 Destination => _agent.destination;
 
     private NavMeshAgent _agent;
     private Collider[] _detected;
-    private const int MAX_PLAYER = 4;
+    private EnemyConfig _config;
+    private const int MAX_TARGET = 4;
+    private const int MAX_ATTEMPTS = 5;
     private const float VELOCITY_SQR_THRESHOLD = 0.01f;
-    private float _radius; // debug only
-    private float _attackRange; // debug only
+    private const float DIRECTION_SQR_THRESHOLD = 0.001f;
 
     public void Initialize(EnemyConfig config)
     {
         _agent = GetComponent<NavMeshAgent>();
-        _agent.stoppingDistance = config.AttackRange;
-        _detected = new Collider[MAX_PLAYER];
+        _config = config;
+        _agent.updateRotation = false;
+        _agent.stoppingDistance = _config.AttackRange;
+        _agent.Warp(transform.position);
+        _detected ??= new Collider[MAX_TARGET];
     }
 
-    public Transform DetectPlayer(Vector3 origin, float radius, LayerMask layer)
+    public Transform DetectPlayer(Vector3 origin)
     {
-        int count = Physics.OverlapSphereNonAlloc(origin, radius, _detected, layer);
+        int count = Physics.OverlapSphereNonAlloc(origin, _config.MaxDetectRadius, _detected, _config.PlayerLayer);
 
-        return count > 0 ? _detected[0].transform : null;
-    }
-
-    public bool TryGetRandomDestination(Vector3 origin, float min, float max, out Vector3 result)
-    {
-        Vector3 direction = Random.onUnitSphere;
-        direction.y = 0f;
-        direction.Normalize();
-
-        float distance = Random.Range(min, max);
-        Vector3 position = origin + (direction * distance);
-
-        if (NavMesh.SamplePosition(position, out NavMeshHit hit, max, NavMesh.AllAreas))
+        for (int i = 0; i < count; i++)
         {
-            result = hit.position;
-            return true;
+            Transform detected = _detected[i].transform;
+            Vector3 direction = (detected.position - origin).normalized;
+            float distance = Vector3.Distance(origin, detected.position);
+
+            if (distance <= _config.AbsoluteDetectRadius)
+            {
+                return detected;
+            }
+
+            if (!Physics.Raycast(origin, direction, distance, _config.ObstacleLayer))
+            {
+                return detected;
+            }
         }
 
-        result = Vector3.zero;
+        return null;
+    }
+
+    public bool TryGetRandomDestination(Vector3 origin, out Vector3 destination)
+    {
+        for (int i = 0; i < MAX_ATTEMPTS; i++)
+        {
+            Vector3 direction = Random.onUnitSphere;
+            direction.y = 0f;
+            direction.Normalize();
+
+            float distance = Random.Range(_config.MinMoveRadius, _config.MaxDetectRadius);
+            Vector3 position = origin + (direction * distance);
+
+            // This function may reduce the frame rate if a large search radius is specified. 
+            // To avoid frame rate issues, it is recommended that you specify a maxDistance of twice the agent height.
+            // https://docs.unity3d.com/ScriptReference/AI.NavMesh.SamplePosition.html
+            if (NavMesh.SamplePosition(position, out NavMeshHit hit, _config.NavMeshSampleDistance, NavMesh.AllAreas))
+            {
+                destination = hit.position;
+                return true;
+            }
+        }
+
+        destination = Vector3.zero;
         return false;
     }
 
@@ -64,10 +92,27 @@ public class EnemyAgent : MonoBehaviour
         _agent.ResetPath();
     }
 
+    public void RotateAgent(Vector3 position, float rotationSpeed, float deltaTime)
+    {
+        Vector3 direction = position - transform.position;
+        direction.y = 0f;
+
+        if (direction.sqrMagnitude > DIRECTION_SQR_THRESHOLD)
+        {
+            Quaternion rotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.Slerp(transform.rotation, rotation, rotationSpeed * deltaTime);
+        }
+    }
+
 #if UNITY_EDITOR
-    public void DrawGizmos(float radius, float attackRange)
+    private float _radius; // debug only
+    private float _absRadius; // debug only
+    private float _attackRange; // debug only
+
+    public void DrawGizmos(float radius, float absRadius, float attackRange)
     {
         _radius = radius;
+        _absRadius = absRadius;
         _attackRange = attackRange;
     }
 
@@ -79,6 +124,13 @@ public class EnemyAgent : MonoBehaviour
 
         UnityEditor.Handles.color = new Color(1f, 1f, 0f, 0.15f);
         UnityEditor.Handles.DrawSolidDisc(transform.position, Vector3.up, _radius);
+
+        // 절대 감지 사거리
+        UnityEditor.Handles.color = Color.blue;
+        UnityEditor.Handles.DrawWireDisc(transform.position, Vector3.up, _absRadius);
+
+        UnityEditor.Handles.color = new Color(0f, 0f, 1f, 0.15f);
+        UnityEditor.Handles.DrawSolidDisc(transform.position, Vector3.up, _absRadius);
 
         // 공격 사거리
         UnityEditor.Handles.color = Color.red;
