@@ -40,7 +40,7 @@ public class PoolManager : MonoBehaviour, IObjectPool
 
             _pools[pool.Prefab] = queue;
         }
-        
+
         foreach (var pool in enemyPools)
         {
             var queue = new Queue<GameObject>();
@@ -63,7 +63,7 @@ public class PoolManager : MonoBehaviour, IObjectPool
             _pools[prefab] = queue;
         }
 
-        GameObject instance = queue.Count > 0 ? queue.Dequeue() : Instantiate(prefab);
+        GameObject instance = queue.Count > 0 ? queue.Dequeue() : Instantiate(prefab, transform);
 
         instance.transform.SetPositionAndRotation(position, rotation);
         instance.SetActive(true);

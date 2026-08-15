@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b6dbec38ad3e59a46bd5439a9d8e263b, type: 3}
-  m_Name: Enemy_A
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyConfig
+  m_Name: Enemy_B
+  m_EditorClassIdentifier: Enemy::EnemyConfig
   PlayerLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -21,14 +21,14 @@ MonoBehaviour:
   NavMeshSampleDistance: 1
   WalkSpeed: 2
   RunSpeed: 4
-  AttackRange: 1
+  AttackRange: 2
   AttackInterval: 2
   NextMoveInterval: 3
   MinMoveRadius: 3
-  MaxDetectRadius: 5
-  AbsoluteDetectRadius: 3
+  MaxDetectRadius: 8
+  AbsoluteDetectRadius: 5
   RotationSpeed: 7
   WalkAnimSpeed: 1
   RunAnimSpeed: 2
   AttackSpeed: 2
-  InitHealth: 100
+  InitHealth: 200

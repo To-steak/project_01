@@ -4,7 +4,7 @@ using UnityEngine;
 [RequireComponent(typeof(EnemyAnimations))]
 [RequireComponent(typeof(EnemyHealth))]
 [RequireComponent(typeof(EnemyWeapon))]
-public class EnemyController : MonoBehaviour
+public class EnemyController : MonoBehaviour, IPoolable, INoticeReceiver
 {
     [SerializeField] private EnemyConfig config;
     public EnemyConfig Config => config;
@@ -14,14 +14,20 @@ public class EnemyController : MonoBehaviour
     public EnemyHealth Health { get; private set; }
     public EnemyWeapon Weapon { get; private set; }
     public EnemyEvents Events { get; private set; }
-
-    public EnemyState CurrentState => _currentState; // Debug Only
+    public BoxCollider Collider { get; private set; }
+#if UNITY_EDITOR
+    public EnemyState CurrentState => _currentState;
+#endif
     private EnemyState _currentState;
+    private GameObject _source;
 
     public EnemyMoveState Move { get; private set; }
     public EnemyChaseState Chase { get; private set; }
     public EnemyAttackState Attack { get; private set; }
     public EnemyDieState Die { get; private set; }
+
+    public Transform LastTarget { get; private set; }
+    public bool HasLastTarget { get; private set; }
 
     void Awake()
     {
@@ -30,20 +36,12 @@ public class EnemyController : MonoBehaviour
         Attack = new EnemyAttackState(this);
         Die = new EnemyDieState(this);
 
-        _currentState = Move;
-
         Agent = GetComponent<EnemyAgent>();
         Animations = GetComponent<EnemyAnimations>();
         Health = GetComponent<EnemyHealth>();
         Weapon = GetComponent<EnemyWeapon>();
+        Collider = GetComponent<BoxCollider>();
         Events = new EnemyEvents();
-
-        Agent.Initialize(config);
-        Animations.Initialize(events: Events, config: config);
-        Weapon.Initialize();
-        Health.Initialize(Events, config);
-
-        Agent.DrawGizmos(config.MaxDetectRadius, config.AbsoluteDetectRadius, config.AttackRange); // Only Debug
     }
 
     void OnEnable()
@@ -67,10 +65,9 @@ public class EnemyController : MonoBehaviour
     void Update()
     {
         Vector3 position = transform.position + (transform.forward * 1);
-        // position += transform.forward;
-
-        Weapon.MeleeArea(position); // Debug
-
+#if UNITY_EDITOR
+        Weapon.MeleeArea(position);
+#endif
         _currentState.Tick();
     }
 
@@ -79,6 +76,51 @@ public class EnemyController : MonoBehaviour
         _currentState.Exit();
         _currentState = state;
         _currentState.Enter();
+    }
+
+    public void SetSource(GameObject source)
+    {
+        _source = source;
+        Initialize();
+    }
+
+    private void Initialize()
+    {
+        Agent.Initialize(config);
+        Animations.Initialize(Events, config);
+        Weapon.Initialize();
+        Health.Initialize(Events, config);
+        Collider.enabled = true;
+
+        _currentState?.Exit();
+        _currentState = Move;
+        _currentState.Enter();
+
+#if UNITY_EDITOR
+        Agent.DrawGizmos(config.MaxDetectRadius, config.AbsoluteDetectRadius, config.AttackRange);
+#endif
+    }
+
+    public void ReturnPool()
+    {
+        ObjectPool.Manager.Release(_source, gameObject);
+    }
+
+    public void NoticeDamage(Transform transform)
+    {
+        SetLastTarget(transform);
+        _currentState.HandleDamaged(transform);
+    }
+
+    public void SetLastTarget(Transform transform)
+    {
+        LastTarget = transform;
+        HasLastTarget = true;
+    }
+
+    public void ClearLastTarget()
+    {
+        HasLastTarget = false;
     }
 
     // Animation

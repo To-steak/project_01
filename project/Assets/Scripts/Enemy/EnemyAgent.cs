@@ -4,19 +4,24 @@ using UnityEngine.AI;
 public class EnemyAgent : MonoBehaviour
 {
     public bool IsMoving => _agent.pathPending || _agent.remainingDistance > _agent.stoppingDistance || _agent.velocity.sqrMagnitude > VELOCITY_SQR_THRESHOLD;
+    public Vector3 Destination => _agent.destination;
 
     private NavMeshAgent _agent;
     private Collider[] _detected;
     private EnemyConfig _config;
-    private const int MAX_PLAYER = 4;
+    private const int MAX_TARGET = 4;
+    private const int MAX_ATTEMPTS = 5;
     private const float VELOCITY_SQR_THRESHOLD = 0.01f;
+    private const float DIRECTION_SQR_THRESHOLD = 0.001f;
 
     public void Initialize(EnemyConfig config)
     {
         _agent = GetComponent<NavMeshAgent>();
         _config = config;
+        _agent.updateRotation = false;
         _agent.stoppingDistance = _config.AttackRange;
-        _detected = new Collider[MAX_PLAYER];
+        _agent.Warp(transform.position);
+        _detected ??= new Collider[MAX_TARGET];
     }
 
     public Transform DetectPlayer(Vector3 origin)
@@ -45,17 +50,23 @@ public class EnemyAgent : MonoBehaviour
 
     public bool TryGetRandomDestination(Vector3 origin, out Vector3 destination)
     {
-        Vector3 direction = Random.onUnitSphere;
-        direction.y = 0f;
-        direction.Normalize();
-
-        float distance = Random.Range(_config.MinMoveRadius, _config.MaxDetectRadius);
-        Vector3 position = origin + (direction * distance);
-
-        if (NavMesh.SamplePosition(position, out NavMeshHit hit, _config.MaxDetectRadius, NavMesh.AllAreas))
+        for (int i = 0; i < MAX_ATTEMPTS; i++)
         {
-            destination = hit.position;
-            return true;
+            Vector3 direction = Random.onUnitSphere;
+            direction.y = 0f;
+            direction.Normalize();
+
+            float distance = Random.Range(_config.MinMoveRadius, _config.MaxDetectRadius);
+            Vector3 position = origin + (direction * distance);
+
+            // This function may reduce the frame rate if a large search radius is specified. 
+            // To avoid frame rate issues, it is recommended that you specify a maxDistance of twice the agent height.
+            // https://docs.unity3d.com/ScriptReference/AI.NavMesh.SamplePosition.html
+            if (NavMesh.SamplePosition(position, out NavMeshHit hit, _config.NavMeshSampleDistance, NavMesh.AllAreas))
+            {
+                destination = hit.position;
+                return true;
+            }
         }
 
         destination = Vector3.zero;
@@ -79,6 +90,18 @@ public class EnemyAgent : MonoBehaviour
     {
         _agent.velocity = Vector3.zero;
         _agent.ResetPath();
+    }
+
+    public void RotateAgent(Vector3 position, float rotationSpeed, float deltaTime)
+    {
+        Vector3 direction = position - transform.position;
+        direction.y = 0f;
+
+        if (direction.sqrMagnitude > DIRECTION_SQR_THRESHOLD)
+        {
+            Quaternion rotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.Slerp(transform.rotation, rotation, rotationSpeed * deltaTime);
+        }
     }
 
 #if UNITY_EDITOR

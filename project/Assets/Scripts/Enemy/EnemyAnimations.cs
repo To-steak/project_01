@@ -48,4 +48,9 @@ public class EnemyAnimations : MonoBehaviour, IAnimationEventReceiver
 
     public void NotifyAnimationFinished() => _events.RaiseOnAnimationFinish();
     public void NotifyAnimationCommit() => _events.RaiseOnAnimationCommit();
+
+    public float GetAttackSpeedDebug()
+    {
+        return _animator.GetFloat(attackSpeedHash);
+    }
 }

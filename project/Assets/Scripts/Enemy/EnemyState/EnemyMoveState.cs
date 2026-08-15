@@ -48,11 +48,17 @@ public class EnemyMoveState : EnemyState
 
         if (Agent.IsMoving)
         {
+            Agent.RotateAgent(Agent.Destination, Config.RotationSpeed, deltaTime);
             Animations.PlayWalk(Config.WalkAnimSpeed);
         }
         else
         {
             Animations.PlayIdle();
         }
+    }
+
+    public override void HandleDamaged(Transform position)
+    {
+        _controller.ChangeState(_controller.Chase);
     }
 }

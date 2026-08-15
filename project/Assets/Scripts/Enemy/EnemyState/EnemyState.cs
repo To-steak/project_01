@@ -7,6 +7,7 @@ public abstract class EnemyState
     protected EnemyHealth Health => _controller.Health;
     protected EnemyAnimations Animations => _controller.Animations;
     protected EnemyWeapon Weapon => _controller.Weapon;
+    protected BoxCollider Collider => _controller.Collider;
     protected EnemyConfig Config => _controller.Config;
 
     public EnemyState(EnemyController controller)
@@ -20,4 +21,6 @@ public abstract class EnemyState
     // Animation
     public virtual void HandleAnimationFinish() { }
     public virtual void HandleAnimationCommit() { }
+    // Game System
+    public virtual void HandleDamaged(Transform position) { }
 }
