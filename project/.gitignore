@@ -104,3 +104,9 @@ InitTestScene*.unity*
 
 # Auto-generated cache in Assets folder
 /[Aa]ssets/[Ss]ceneDependencyCache*
+
+# Assets from Unity Assets Store
+/Assets/[Rr]PGMonsterCouplePBRPolyart/
+/Assets/[Rr]PGMonsterCouplePBRPolyart.meta
+/Assets/[Qq]uarterView 3D Action BE5/
+/Assets/[Qq]uarterView 3D Action BE5.meta

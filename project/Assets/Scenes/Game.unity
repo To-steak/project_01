@@ -1232,7 +1232,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   player: {fileID: 2624744383910229389, guid: 2a22ed4a5eb9679489b9bae085a5a2c7, type: 3}
-  enemy: {fileID: 3986289796057538481, guid: 30355c6a3d53c8142a21d305f60e8594, type: 3}
+  enemy: {fileID: 1111754924691747839, guid: 2718318dff411474a8e6dca7ef5659c7, type: 3}
   cinemachine: {fileID: 748875024}
 --- !u!4 &842084355
 Transform:
