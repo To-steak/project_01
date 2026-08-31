@@ -23,7 +23,7 @@ public class Bullet : MonoBehaviour, IPoolable
         _timer += deltaTime;
         if (_timer >= LIFE_TIME)
         {
-            ObjectPool.Manager.Release(_source, gameObject);
+            ObjectPool.Pool.Release(_source, gameObject);
         }
     }
 
@@ -39,7 +39,7 @@ public class Bullet : MonoBehaviour, IPoolable
             }
         }
 
-        ObjectPool.Manager.Release(_source, gameObject);
+        ObjectPool.Pool.Release(_source, gameObject);
     }
 
     public void SetSource(GameObject source)

@@ -29,6 +29,6 @@ public class GameManager : MonoBehaviour
 
     public void Summon()
     {
-        ObjectPool.Manager.Get(enemy, Vector3.zero, Quaternion.identity);
+        ObjectPool.Pool.Get(enemy, Vector3.zero, Quaternion.identity);
     }
 }

@@ -26,7 +26,7 @@ public class PoolManager : MonoBehaviour, IObjectPool
 
     void Awake()
     {
-        ObjectPool.Manager = this;
+        ObjectPool.Pool = this;
 
         foreach (var pool in bulletPools)
         {

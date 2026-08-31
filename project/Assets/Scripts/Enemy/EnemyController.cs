@@ -103,7 +103,7 @@ public class EnemyController : MonoBehaviour, IPoolable, INoticeReceiver
 
     public void ReturnPool()
     {
-        ObjectPool.Manager.Release(_source, gameObject);
+        ObjectPool.Pool.Release(_source, gameObject);
     }
 
     public void NoticeDamage(Transform transform)

@@ -40,7 +40,7 @@ public class FirearmsInstance : WeaponInstance
         position.y = spawnPosition.y;
         Vector3 direction = (position - spawnPosition).normalized;
         Quaternion rotation = Quaternion.LookRotation(direction);
-        GameObject bullet = ObjectPool.Manager.Get(_bulletPrefab, spawnPosition, rotation);
+        GameObject bullet = ObjectPool.Pool.Get(_bulletPrefab, spawnPosition, rotation);
 
         if (bullet.TryGetComponent<Bullet>(out var component))
         {

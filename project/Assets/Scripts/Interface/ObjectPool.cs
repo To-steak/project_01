@@ -1,4 +1,4 @@
 public static class ObjectPool
 {
-    public static IObjectPool Manager { get; set; }
+    public static IObjectPool Pool { get; set; }
 }
